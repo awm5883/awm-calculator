@@ -20,6 +20,7 @@ class Color:
         magenta = '\033[35m'
         cyan = '\033[36m'
         white = '\033[37m'
+        clear = '\033[0m'
 
 class Markings:
     
@@ -28,11 +29,6 @@ class Markings:
         bold = '\033[1m'
         italic = '\033[3m'
         underline = '\033[4m'
-        
-class Clear:
-    
-    def __init__(self):
-        
         clear = '\033[0m'
         
 #END
