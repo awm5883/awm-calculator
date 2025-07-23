@@ -1,5 +1,5 @@
 """
-SEVEN-FUNCTION CALCULATOR V6.1.7
+SEVEN-FUNCTION CALCULATOR V6.1.8
 
 A command-line calculator application providing seven core mathematical functions:
 addition, subtraction, multiplication, division, exponentiation, trigonometry,
@@ -20,7 +20,7 @@ Usage:
 Run the script from your terminal. Follow the on-screen prompts to select an
 operation and enter the required values.
 
-Notes: Fixed UI Errors in radicals and trig functions
+Notes: Added screen clearing for better UI
 
 Author: Aidan McMillan
 Date: 7/23/25
