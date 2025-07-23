@@ -1,4 +1,4 @@
-#FOUR-FUNCTION CALCULATOR
+#FOUR-FUNCTION CALCULATOR v2.2
 import time
 goAgainVar = True
 firstTime = True
