@@ -1,9 +1,9 @@
 """
-FORMAT MODULE V1.0
+FORMAT MODULE V1.1
 
 A module for python with formats and colors for f-strings.
 
-Notes: first commit
+Notes: Added clear to both classes
 
 Author: Aidan McMillan
 """
