@@ -1,7 +1,5 @@
 # Calculator
 
----
-
 ## Description
 
 A calculator made by Aidan McMillan (@arduinohatesme, @launchpadinc-ai) in python as an example for python coding.
