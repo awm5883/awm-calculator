@@ -7,11 +7,9 @@ Notes: Added clear to both classes
 
 Author: Aidan McMillan
 """
-print(f"\033[0m Hello World!")
+
 class Color:
     
-    def __init__(self):
-        
         clear = '\033[0m'
         black = '\033[30m'
         red = '\033[31m'
@@ -23,9 +21,7 @@ class Color:
         white = '\033[37m'
 
 class Markings:
-    
-    def __init__(self):
-        
+
         clear = '\033[0m'
         bold = '\033[1m'
         italic = '\033[3m'
