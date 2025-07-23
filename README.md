@@ -9,5 +9,6 @@ A calculator made by Aidan McMillan (@arduinohatesme, @launchpadinc-ai) in pytho
 Starting from v7, the Formatting-Module will be added for more clarity and readability.
 Next function will be simple algebra. (a + bx = c).
 Updating the Github with better version control, while keeping older versions around is also planned. (Specifically v5, because it's a simpler example without formatting or classes.)
+Updated UI for easier operation.
 
-### Current version: 6.1.7
+### Current version: 6.1.8
