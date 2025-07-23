@@ -1,4 +1,4 @@
-#SEVEN-FUNCTION CALCULATOR V5.1
+#SEVEN-FUNCTION CALCULATOR V4.0
 import time
 import math
 goAgainVar = True
