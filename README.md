@@ -22,7 +22,7 @@ Updated UI for easier operation.
 `return`       -> Returns mean that functions can be treated like variables, being equal to the returned value. They are often used in debugging code. \
 `if`           -> Runs the indented code inside if the statement is `True`. \
 `match`        -> Takes in one argument and matches it to each `case`. Runs the code inside if they match. `case _:` is a fallback case that runs if nothing else before it did. \
-`input`        -> Built-in function that `returns` the user input in the terminal. \
+`input`        -> Built-in function that `returns` the user input in the terminal.
 
 ### Current version: FINAL
 
