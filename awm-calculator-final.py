@@ -1,5 +1,5 @@
 """
-SEVEN-FUNCTION CALCULATOR V7.0
+SEVEN-FUNCTION CALCULATOR V7.0.1
 
 A command-line calculator application providing seven core mathematical functions:
 addition, subtraction, multiplication, division, exponentiation, trigonometry,
@@ -23,7 +23,7 @@ operation and enter the required values.
 Notes: Added screen clearing for better UI
 
 Author: Aidan McMillan
-Date: 7/23/25
+Date: 7/24/25
 """
 
 import os
@@ -255,25 +255,21 @@ class Calculate:
         answer = float(inputs[1]) ** (1 / float(inputs[0])) # Radical in exponent form
         
         ans_int = 0
-        if answer.is_integer():
-            
-            ans_int = int(answer)
-            print(f"The {inputs[0]}{suffix} root of {inputs[1]} is {str(round(ans_int, 3))}")
+        if answer.is_integer():            
+            ans_int = int(answer)        
+            print(f"The {inputs[0]}{suffix} root of {inputs[1]} is {str(ans_int)}")
+            return 0 
         
-        if ans_int:
-            
-            return 0
-        
-        if input(f"Would you like more precision? ({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear}){Markings.clear}") == 'y':
-            
+        print(f"The {inputs[0]}{suffix} root of {inputs[1]} is {str(round(answer, 3))}")
+
+        if input(f"Would you like more precision? ({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear}){Markings.clear}") == 'y':            
             print(f"The {inputs[0]}{suffix} root of {inputs[1]} is {str(answer)}")
         
         return 0
     
-def prompt_restart(first_time): # Perform another calculation message and surrounding computation.
+def prompt_restart(first_time): # "Perform another calculation?" message and surrounding computation.
     
-    if first_time == True:
-        
+    if first_time == True:       
         first_time = False
         return 2
     
@@ -429,8 +425,9 @@ while True: # Loop forever, "Go again?" and sleep logic.
             time.sleep(0.5)
             print(".", end = "")
             time.sleep(0.5)
-            print(".", end = "")
+            print(".")
             time.sleep(0.5)
+            clear_terminal()
             first_time = True
         
         else:
