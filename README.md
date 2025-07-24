@@ -26,4 +26,4 @@ Updated UI for easier operation.
 
 ### Current version: FINAL
 
-All updates will be made to this same file. This will be the end of the version folders.
+All updates will be made to awm-calculator-final. This will be the end of the version folders. Versions can be found at the docstring at the top.
