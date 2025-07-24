@@ -1,6 +1,14 @@
 # Calculator
 
-A python calculator made by Aidan McMillan (@arduinohatesme, @launchpadinc-ai) as an example for python coding.
+A python calculator made by Aidan McMillan (@arduinohatesme, @launchpadinc-ai) as an example for python coding at Launchpad. Last updated 7/24/2025.
+
+## How To Use 🤔
+
+1. Download 'awm-calculator-final.py' and 'awmformat.py'
+2. Install python 3 if you haven't already.
+3. Navigate to the downloads directory in Terminal.
+4. Type 'python awm-calculator-final.py'
+5. Finish your math homework!
 
 ## Planned Updates 🧠
 
