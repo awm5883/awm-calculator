@@ -1,6 +1,6 @@
 # Calculator
 
-A python calculator made by Aidan McMillan (@arduinohatesme, @launchpadinc-ai) as an example for python coding at Launchpad. Last updated 7/24/2025.
+A python calculator made by Aidan McMillan (@arduinohatesme, @launchpadinc-ai) as an example for python coding at Launchpad. Last updated 7/23/2025.
 
 ## How To Use 🤔
 
