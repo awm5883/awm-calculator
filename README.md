@@ -1,16 +1,16 @@
 # Calculator
 
-## Description
+## Description 📓
 
 A calculator made by Aidan McMillan (@arduinohatesme, @launchpadinc-ai) in python as an example for python coding.
 
-## Planned Updates
+## Planned Updates 🧠
 
 Next function will be simple algebra. (a + bx = c).
 Updating the Github with better version control, while keeping older versions around is also planned. (Specifically v5, because it`s a simpler example without formatting or classes.)
 Updated UI for easier operation.
 
-## Function Guide
+## Function Guide 🖥️
 
 `import`       -> Imports a module. Modules add extra functions with new functionality to python. \
 `operation`    -> This is an example of a variable. This value can be changed throughout the code to allow for more complex code. \
