@@ -257,9 +257,15 @@ class Calculate:
         display_answer = 0
         if answer.is_integer():            
             display_answer = int(answer)
-
         else:
             display_answer = round(answer, 3)
+        print("Loading", end = "")
+        time.sleep(0.05)
+        print(".", end = "")
+        time.sleep(0.05)
+        print(".", end = "")
+        time.sleep(0.05)
+        print(".")
 
         print(f"The {inputs[0]}{suffix} root of {inputs[1]} is {str(display_answer)}")
 
