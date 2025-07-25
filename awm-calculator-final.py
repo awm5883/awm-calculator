@@ -341,27 +341,21 @@ def main():
     match operation:
         
         case '+':
-            
             arithmetic_instance.add()
             
         case '-':
-            
             arithmetic_instance.subtract()
             
         case '*':
-            
             arithmetic_instance.multiply()
             
         case '/':
-            
             arithmetic_instance.divide()
-            
+
         case '^':
-            
             arithmetic_instance.exponent()
-        
+       
         case 'r':
-            
             radical_instance.radical()
 
         case 'q':
@@ -375,51 +369,42 @@ def main():
                 while time_left >= 0:
                     print(f"ERROR: Invalid input. Reverting to main menu in {str(round(time_left, 3)).zfill(3)} seconds.", end = '\r')
                     time.sleep(0.01)
-                    time_left -= 0.01       
+                    time_left -= 0.01
+                clear_terminal()    
         case 't':
             
             match trig_menu():
                 
                 case 'as':
-                    
                     trig_instance.arcsin()
                     
                 case 'ac':
-                    
                     trig_instance.arccos()
                     
                 case 'at':
-                    
                     trig_instance.arctan()
                     
                 case 's':
-                    
                     trig_instance.sin()
                     
                 case 'c':
-                    
                     trig_instance.cos()
                     
                 case 't':
-                    
                     trig_instance.tan()
                 
                 case _:
-                    
                     print(f"{Color.red}ERROR: Invalid trig operation!{Markings.clear}")
         case _:
-            
             print(f"{Color.red}ERROR: Invalid operation!{Markings.clear}")
 
 while True: # Loop forever, "Go again?" and sleep logic.
     
     if prompt_restart(first_time):
-        
         first_time = False
         main()
     
     else:
-        
         print("Exiting calculation", end = "")
         time.sleep(0.5)
         print(".", end = "")
