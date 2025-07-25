@@ -258,9 +258,9 @@ class Calculate:
         if answer.is_integer():            
             ans_int = int(answer)        
             print(f"The {inputs[0]}{suffix} root of {inputs[1]} is {str(ans_int)}")
-            return 0 
         
-        print(f"The {inputs[0]}{suffix} root of {inputs[1]} is {str(round(answer, 3))}")
+        elif not answer.is_integer():
+            print(f"The {inputs[0]}{suffix} root of {inputs[1]} is {str(round(answer, 3))}")
 
         if input(f"Would you like more precision? ({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear}){Markings.clear}") == 'y':            
             print(f"The {inputs[0]}{suffix} root of {inputs[1]} is {str(answer)}")
