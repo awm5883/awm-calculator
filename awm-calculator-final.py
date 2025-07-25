@@ -1,5 +1,5 @@
 """
-SEVEN-FUNCTION CALCULATOR V7.0.1
+SEVEN-FUNCTION CALCULATOR V7.1
 
 A command-line calculator application providing seven core mathematical functions:
 addition, subtraction, multiplication, division, exponentiation, trigonometry,
@@ -20,10 +20,10 @@ Usage:
 Run the script from your terminal. Follow the on-screen prompts to select an
 operation and enter the required values.
 
-Notes: Added screen clearing for better UI
+Notes: Added more screen clearing for better UI and reworked quitting
 
 Author: Aidan McMillan
-Date: 7/24/25
+Date: 7/25/25
 """
 
 import os
@@ -259,7 +259,7 @@ class Calculate:
             display_answer = int(answer)
         else:
             display_answer = round(answer, 3)
-
+            
         print(f"The {inputs[0]}{suffix} root of {inputs[1]} is {str(display_answer)}")
 
         if input(f"Would you like more precision? ({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear}){Markings.clear}") == 'y':            
@@ -305,10 +305,12 @@ def main_menu_prompt(): # Print main menu and recieve operation
     print(f"{Color.green}*  {Markings.bold}^ = EXPONENTIATE  {Markings.clear}{Color.green}*{Markings.clear}")
     print(f"{Color.green}*  {Markings.bold}t = TRIGONOMETRY  {Markings.clear}{Color.green}*{Markings.clear}")
     print(f"{Color.green}*  {Markings.bold}r = RADICAL       {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}*  {Markings.bold}q = QUIT          {Markings.clear}{Color.green}*{Markings.clear}")
     print(f"{Color.green}*                    *{Markings.clear}")
     print(f"{Color.green}**********************{Markings.clear}")
     
     command = input().strip().lower()
+    clear_terminal()
     return command # return the input
 
 
@@ -325,6 +327,7 @@ def trig_menu(): # Trig menu (also returns input)
     print(f"{Color.green}******************{Markings.clear}")
     
     command = input().strip().lower()
+    clear_terminal()
     return command
 
 
@@ -360,6 +363,11 @@ def main():
         case 'r':
             
             radical_instance.radical()
+
+        case 'q':
+
+            print(f"{Color.red}{Markings.bold}ARE YOU SURE YOU WANT TO QUIT? {Markings.clear}({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear}")
+            quit()
             
         case 't':
             
