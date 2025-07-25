@@ -254,13 +254,14 @@ class Calculate:
         
         answer = float(inputs[1]) ** (1 / float(inputs[0])) # Radical in exponent form
         
-        ans_int = 0
+        display_answer = 0
         if answer.is_integer():            
-            ans_int = int(answer)        
-            print(f"The {inputs[0]}{suffix} root of {inputs[1]} is {str(ans_int)}")
-        
-        elif not answer.is_integer():
-            print(f"The {inputs[0]}{suffix} root of {inputs[1]} is {str(round(answer, 3))}")
+            display_answer = int(answer)
+
+        else:
+            display_answer = round(answer, 3)
+
+        print(f"The {inputs[0]}{suffix} root of {inputs[1]} is {str(display_answer)}")
 
         if input(f"Would you like more precision? ({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear}){Markings.clear}") == 'y':            
             print(f"The {inputs[0]}{suffix} root of {inputs[1]} is {str(answer)}")
