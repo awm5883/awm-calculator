@@ -373,7 +373,7 @@ def main():
             else:
                 time_left = 3
                 while time_left >= 0:
-                    print(f"ERROR: Invalid input. Reverting to main menu in {round(time_left, 3).zfill(3)} seconds.", end = '\r')
+                    print(f"ERROR: Invalid input. Reverting to main menu in {str(round(time_left, 3)).zfill(3)} seconds.", end = '\r')
                     time.sleep(0.01)
                     time_left -= 0.01       
         case 't':
