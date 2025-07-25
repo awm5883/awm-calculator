@@ -14,7 +14,7 @@ A python calculator made by Aidan McMillan (@arduinohatesme, @launchpadinc-ai) a
 
 - Next function will be simple algebra (a + bx = c).
 - Updating the Github with better version control, while keeping older versions around is also planned. (Specifically v5, because it`s a simpler example without formatting or classes.)
-- Updated UI for easier operation.
+- Visual-based UI
 
 ## Function Guide 🖥️
 
