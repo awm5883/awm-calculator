@@ -1,5 +1,5 @@
 """
-SEVEN-FUNCTION CALCULATOR V7.1
+SEVEN-FUNCTION CALCULATOR V7.1.1
 
 A command-line calculator application providing seven core mathematical functions:
 addition, subtraction, multiplication, division, exponentiation, trigonometry,
@@ -365,10 +365,17 @@ def main():
             radical_instance.radical()
 
         case 'q':
-
-            print(f"{Color.red}{Markings.bold}ARE YOU SURE YOU WANT TO QUIT? {Markings.clear}({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear}")
-            quit()
-            
+            quit_in = input(f"{Color.red}{Markings.bold}ARE YOU SURE YOU WANT TO QUIT? {Markings.clear}({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear})")
+            if quit_in == 'y':
+                quit()
+            elif quit_in == 'n':
+                main_menu_prompt()
+            else:
+                time_left = 3
+                while time_left:
+                    print(f"ERROR: Invalid input. Reverting to main menu in {time_left} seconds.", end = '\r')
+                    time.sleep(0.01)
+                    time_left -= 0.01       
         case 't':
             
             match trig_menu():
