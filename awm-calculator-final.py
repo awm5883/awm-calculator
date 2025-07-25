@@ -1,5 +1,5 @@
 """
-SEVEN-FUNCTION CALCULATOR V7.1.1
+SEVEN-FUNCTION CALCULATOR V7.2
 
 A command-line calculator application providing seven core mathematical functions:
 addition, subtraction, multiplication, division, exponentiation, trigonometry,
@@ -20,7 +20,7 @@ Usage:
 Run the script from your terminal. Follow the on-screen prompts to select an
 operation and enter the required values.
 
-Notes: Added more screen clearing for better UI and reworked quitting
+Notes: Streamlined quitting process for easier use.
 
 Author: Aidan McMillan
 Date: 7/25/25
@@ -266,32 +266,6 @@ class Calculate:
             print(f"The {inputs[0]}{suffix} root of {inputs[1]} is {str(answer)}")
         
         return 0
-    
-def prompt_restart(first_time): # "Perform another calculation?" message and surrounding computation.
-    
-    if first_time == True:       
-        first_time = False
-        return 2
-    
-    else:
-        
-        prompt_restartStr = input(f"Do you want to perform another calculation? ({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear}){Markings.clear}")
-        
-        if prompt_restartStr == 'y':
-            
-            prompt_restartVar = True
-            return 2
-        
-        elif prompt_restartStr == 'n':
-            
-            prompt_restartVar = False
-            return 0 # Success
-        
-        else:
-            
-            print(f"{Color.red}ERROR: Invalid input recieved when asking to restart{Markings.clear}")
-            return 1
-
 
 def main_menu_prompt(): # Print main menu and recieve operation 
     
@@ -399,37 +373,5 @@ def main():
             print(f"{Color.red}ERROR: Invalid operation!{Markings.clear}")
 
 while True: # Loop forever, "Go again?" and sleep logic.
-    
-    if prompt_restart(first_time):
-        first_time = False
         main()
-    
-    else:
-        print("Exiting calculation", end = "")
-        time.sleep(0.5)
-        print(".", end = "")
-        time.sleep(0.5)
-        print(".", end = "")
-        time.sleep(0.5)
-        print(".")
-        time.sleep(0.5)
-        print("Calculation Exited")
-        time.sleep(1)
-        print("Press ENTER to restart, Press q to quit")
-        
-        if input() != 'q':
-            
-            print("Restarting", end = "")
-            time.sleep(0.5)
-            print(".", end = "")
-            time.sleep(0.5)
-            print(".", end = "")
-            time.sleep(0.5)
-            print(".")
-            time.sleep(0.5)
-            clear_terminal()
-            first_time = True
-        
-        else:
-            exit()
             
