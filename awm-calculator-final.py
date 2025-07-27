@@ -1,5 +1,5 @@
 """
-SEVEN-FUNCTION CALCULATOR V7.2
+SEVEN-FUNCTION CALCULATOR V7.2.1
 
 A command-line calculator application providing seven core mathematical functions:
 addition, subtraction, multiplication, division, exponentiation, trigonometry,
@@ -20,10 +20,10 @@ Usage:
 Run the script from your terminal. Follow the on-screen prompts to select an
 operation and enter the required values.
 
-Notes: Streamlined quitting process for easier use.
+Notes: Stopped early reverts to main menu.
 
 Author: Aidan McMillan
-Date: 7/25/25
+Date: 7/27/25
 """
 
 import os
@@ -56,11 +56,17 @@ def get_inputs(operation) -> None:
     inputs[1] = input("2nd Value: ")
     clear_terminal()
     
-    
+
+def prompt_main_menu_return() -> None:
+    input = input("Press {Color.green}y{Markings.clear} to return to the main menu.")
+    while not input == 'y':
+        input = input("ERROR: Invalid input. Please press 'y' to return to the main menu.")
+    if input == 'y':
+        return
+
 class Calculate:
-    
+
     def __init__(self):
-        
         clear_terminal()
     
     class Arithmetic:
@@ -140,7 +146,7 @@ class Calculate:
             if answer.is_integer():
                 ans_int = int(answer)
                 print(f"The arc sine of {trigvalue} is {ans_int} degrees.")
-                return None
+                return
                 
             print(f"The arc sine of {trigvalue} is {round(answer, 3)} degrees.")
             if not answer.is_integer():
@@ -157,7 +163,7 @@ class Calculate:
             if answer.is_integer():
                 ans_int = int(answer)
                 print(f"The arc cosine of {trigvalue} is {ans_int} degrees.")
-                return None
+                return
                 
             print(f"The arc cosine of {trigvalue} is {round(answer, 3)} degrees.")
             if not answer.is_integer():
@@ -174,7 +180,7 @@ class Calculate:
             if answer.is_integer():
                 ans_int = int(answer)
                 print(f"The arc tangent of {trigvalue} is {ans_int} degrees.")
-                return None
+                return
                 
             print(f"The arc tangent of {trigvalue} is {round(answer, 3)} degrees.")
             if not answer.is_integer():
@@ -191,7 +197,7 @@ class Calculate:
             if answer.is_integer():
                 ans_int = int(answer)
                 print(f"The sine of {trigvalue} is {ans_int} degrees.")
-                return None
+                return
                 
             print(f"The sine of {trigvalue} is {round(answer, 3)} degrees.")
             if not answer.is_integer():
@@ -209,7 +215,7 @@ class Calculate:
             if answer.is_integer():
                 ans_int = int(answer)
                 print(f"The cosine of {trigvalue} is {ans_int} degrees.")
-                return None
+                return
                 
             print(f"The cosine of {trigvalue} is {round(answer, 3)} degrees.")
             if not answer.is_integer():
@@ -226,7 +232,7 @@ class Calculate:
             if answer.is_integer():
                 ans_int = int(answer)
                 print(f"The tangent of {trigvalue} is {ans_int} degrees.")
-                return None
+                return
                 
             print(f"The tangent of {trigvalue} is {round(answer, 3)} degrees.")
             if not answer.is_integer():
@@ -308,30 +314,30 @@ def trig_menu(): # Trig menu (also returns input)
 
 def main():
 
-    arithmetic_instance = Calculate.Arithmetic()
-    radical_instance = Calculate()
-    trig_instance = Calculate.Trig()
+    arithmetic = Calculate.Arithmetic()
+    radical = Calculate()
+    trig = Calculate.Trig()
     operation = main_menu_prompt()
 
     match operation:
         
         case '+':
-            arithmetic_instance.add()
+            arithmetic.add()
             
         case '-':
-            arithmetic_instance.subtract()
+            arithmetic.subtract()
             
         case '*':
-            arithmetic_instance.multiply()
+            arithmetic.multiply()
             
         case '/':
-            arithmetic_instance.divide()
+            arithmetic.divide()
 
         case '^':
-            arithmetic_instance.exponent()
+            arithmetic.exponent()
        
         case 'r':
-            radical_instance.radical()
+            radical.radical()
 
         case 'q':
             quit_in = input(f"{Color.red}{Markings.bold}ARE YOU SURE YOU WANT TO QUIT? {Markings.clear}({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear})")
@@ -342,7 +348,7 @@ def main():
             else:
                 time_left = 3
                 while time_left >= 0:
-                    print(f"ERROR: Invalid input. Reverting to main menu in {str(round(time_left, 3)).zfill(3)} seconds.", end = '\r')
+                    print(f"{Color.red}ERROR: Invalid input. Reverting to main menu in {str(round(time_left, 3)).zfill(3)} seconds.{Markings.clear}", end = '\r')
                     time.sleep(0.01)
                     time_left -= 0.01
                 clear_terminal()    
@@ -351,28 +357,28 @@ def main():
             match trig_menu():
                 
                 case 'as':
-                    trig_instance.arcsin()
+                    trig.arcsin()
                     
                 case 'ac':
-                    trig_instance.arccos()
+                    trig.arccos()
                     
                 case 'at':
-                    trig_instance.arctan()
+                    trig.arctan()
                     
                 case 's':
-                    trig_instance.sin()
+                    trig.sin()
                     
                 case 'c':
-                    trig_instance.cos()
+                    trig.cos()
                     
                 case 't':
-                    trig_instance.tan()
+                    trig.tan()
                 
                 case _:
                     print(f"{Color.red}ERROR: Invalid trig operation!{Markings.clear}")
         case _:
             print(f"{Color.red}ERROR: Invalid operation!{Markings.clear}")
-
-while True: # Loop forever, "Go again?" and sleep logic.
+    prompt_main_menu_return()
+while True: # Main loops forever
         main()
             
