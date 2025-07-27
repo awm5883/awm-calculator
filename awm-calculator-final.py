@@ -81,6 +81,7 @@ class Calculate:
                 get_inputs('+')
                 answer = int(inputs[0]) + int(inputs[1])
                 print(f"The sum of {str(inputs[0])} and {str(inputs[1])} is {str(answer)}")
+                prompt_main_menu_return()
             except ValueError:
                 print(f"{Color.red}ERROR: Invalid inputs!{Markings.clear}")
                 return 1
@@ -323,7 +324,7 @@ def main():
         
         case '+':
             arithmetic.add()
-            
+
         case '-':
             arithmetic.subtract()
             
@@ -378,7 +379,6 @@ def main():
                     print(f"{Color.red}ERROR: Invalid trig operation!{Markings.clear}")
         case _:
             print(f"{Color.red}ERROR: Invalid operation!{Markings.clear}")
-    prompt_main_menu_return()
 while True: # Main loops forever
         main()
             
