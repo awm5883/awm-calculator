@@ -127,10 +127,9 @@ class Calculate:
     
     class Trig:
         
-        def __init__(self):
-            
-            trigvalue  = None
-            
+        def __init__(self): 
+            pass
+
         def arcsin(self):
             
             print(f"arcsin({Color.green}{Markings.bold}___{Markings.clear}) ")
@@ -266,6 +265,8 @@ class Calculate:
             print(f"The {inputs[0]}{suffix} root of {inputs[1]} is {str(answer)}")
         
         return 0
+    def simple_algebra(self):
+        print(f"First argument: {Color.green}_{Markings.clear} (x{Markings.superscript}0{Markings.clear})")
 
 def main_menu_prompt(): # Print main menu and recieve operation 
     

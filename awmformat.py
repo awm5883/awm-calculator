@@ -26,6 +26,7 @@ class Markings:
         bold = '\033[1m'
         italic = '\033[3m'
         underline = '\033[4m'
+        superscript = '\u00b'
         
 #END
         
