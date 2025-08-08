@@ -36,8 +36,24 @@ import time
 from awmfrmt import Color, Markings
 
 def clear_terminal():
+<<<<<<< HEAD
     """Clears the terminal screen."""
     os.system('cls' if os.name == 'nt' else 'clear')
+=======
+    # Clears Terminal
+    # For Windows
+    if os.name == 'nt':
+        import os  
+        _ = os.system('cls')
+    # For Unix-like systems (Linux, macOS)
+    elif os.name == 'posix':
+        import os  
+        _ = os.system('clear')
+    # For TI (because calculator^2)
+    else:
+        import ti_system
+        ti_system.clear_history()
+>>>>>>> parent of 0c4645a (Update awm-calculator-final.py)
 
 def prompt_main_menu_return():
     """Waits for the user to press 'y' to return to the menu."""
