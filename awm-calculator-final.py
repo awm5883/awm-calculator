@@ -1,27 +1,23 @@
 """
-SEVEN-FUNCTION CALCULATOR V7.3
+SEVEN-FUNCTION CALCULATOR V7.2.2
 
 A command-line calculator application providing seven core mathematical functions:
 addition, subtraction, multiplication, division, exponentiation, trigonometry,
 and radical (nth root) calculations.
 
-This version is intended to be used with the custom 'awmfrmt' module for text
-formatting in the terminal.
-
 Features:
 - Menu-driven interface for selecting operations.
-- Handles basic arithmetic operations (+, -, *, /, ^) with floating-point numbers.
+- Handles basic arithmetic operations (+, -, *, /, ^).
 - Supports common trigonometric functions (sine, cosine, tangent) and their
-  inverse counterparts (arcsin, arccos, arctan), correctly handling degrees.
+  inverse counterparts (arcsin, arccos, arctan), accepting input in degrees.
 - Calculates the nth root of a number.
-- Includes robust input validation to prevent common errors like division by zero
+- Includes basic input validation to prevent common errors like division by zero
   and non-numeric input.
-- Provides an option for more precision in results.
-- Allows the user to perform multiple calculations consecutively in a stable loop.
+- Provides an option for more precision in radical and trigonometric results.
+- Allows the user to perform multiple calculations consecutively.
 
 Usage:
-Run the script from your terminal. Ensure the 'awmfrmt.py' module is in the
-same directory. Follow the on-screen prompts to select an
+Run the script from your terminal. Follow the on-screen prompts to select an
 operation and enter the required values.
 
 Notes: Stopped early reverts to main menu.
@@ -30,10 +26,13 @@ Author: Aidan McMillan
 Date: 8/8/25
 """
 
-import os
-import math
 import time
+import math
 from awmfrmt import Color, Markings
+first_time = True
+operation = None
+inputs = [0, 0]
+
 
 def clear_terminal():
     # Clears Terminal
@@ -45,257 +44,341 @@ def clear_terminal():
     elif os.name == 'posix':
         import os  
         _ = os.system('clear')
-    # For TI (because calculator^2)
-    else:
-        import ti_system
-        ti_system.clear_history()
 
-def prompt_main_menu_return():
-    """Waits for the user to press 'y' to return to the menu."""
-    response = input(f"Press {Color.green}y{Markings.clear} to return to the main menu.")
-    while response.lower() != 'y':
-        response = input("ERROR: Invalid input. Please press 'y' to return to the main menu.")
+def get_inputs(operation) -> None:
+    
+    clear_terminal()
+    print(f"{Color.green}{Markings.bold}____{Markings.clear} {operation} ____") # All other computations
+    print("ENTER VALUE           ")
+    inputs[0] = input("1st Value: ")
+    
+    print(f"{inputs[0]} {operation} {Color.green}{Markings.bold}____{Markings.clear}")
+    print("ENTER VALUE")
+    inputs[1] = input("2nd Value: ")
+    clear_terminal()
+    
+
+def prompt_main_menu_return() -> None:
+    input = input("Press {Color.green}y{Markings.clear} to return to the main menu.")
+    while not input == 'y':
+        input = input("ERROR: Invalid input. Please press 'y' to return to the main menu.")
     return
 
-def get_numeric_input(prompt: str) -> str:
-    """Continuously prompts for a valid numeric input and returns it as a string."""
-    while True:
-        value = input(prompt)
-        try:
-            # Check if it can be converted to a float, but return the original string
-            float(value)
-            return value
-        except ValueError:
-            print(f"{Color.red}ERROR: Invalid input. Please enter a number.{Markings.clear}")
+class Calculate:
 
-def get_inputs(operation: str) -> tuple[str, str]:
-    """Gets two numeric inputs from the user, following the original UI flow."""
-    clear_terminal()
-    print(f"{Color.green}{Markings.bold}____{Markings.clear} {operation} ____")
-    print("ENTER VALUE             ")
-    num1 = get_numeric_input("1st Value: ")
-
-    clear_terminal()
-    print(f"{num1} {operation} {Color.green}{Markings.bold}____{Markings.clear}")
-    print("ENTER VALUE")
-    num2 = get_numeric_input("2nd Value: ")
+    def __init__(self):
+        clear_terminal()
     
-    clear_terminal()
-    return num1, num2
-
-def calculate_add():
-    try:
-        inputs = get_inputs('+')
-        answer = float(inputs[0]) + float(inputs[1])
-        print(f"The sum of {inputs[0]} and {inputs[1]} is {answer}")
-        prompt_main_menu_return()
-    except ValueError:
-        print(f"{Color.red}ERROR: Invalid inputs!{Markings.clear}")
-        time.sleep(2)
-
-def calculate_subtract():
-    try:
-        inputs = get_inputs('-')
-        answer = float(inputs[0]) - float(inputs[1])
-        print(f"The difference between {inputs[0]} and {inputs[1]} is {answer}")
-        prompt_main_menu_return()
-    except ValueError:
-        print(f"{Color.red}ERROR: Invalid inputs!{Markings.clear}")
-        time.sleep(2)
-
-def calculate_multiply():
-    try:
-        inputs = get_inputs('*')
-        answer = float(inputs[0]) * float(inputs[1])
-        print(f"The product of {inputs[0]} and {inputs[1]} is {answer}")
-        prompt_main_menu_return()
-    except ValueError:
-        print(f"{Color.red}ERROR: Invalid inputs!{Markings.clear}")
-        time.sleep(2)
-
-def calculate_divide():
-    try:
-        inputs = get_inputs('/')
-        if float(inputs[1]) == 0:
-            print(f"{Color.red}ERROR: Cannot divide by zero!{Markings.clear}")
-            time.sleep(2)
-            return
-        answer = float(inputs[0]) / float(inputs[1])
-        ans_to_print = answer
-        if answer.is_integer():
-            ans_to_print = int(answer)
-        print(f"The quotient of {inputs[0]} and {inputs[1]} is {ans_to_print}")
-        prompt_main_menu_return()
-    except ValueError:
-        print(f"{Color.red}ERROR: Invalid inputs!{Markings.clear}")
-        time.sleep(2)
-
-def calculate_exponent():
-    try:
-        inputs = get_inputs('^')
-        answer = float(inputs[0]) ** float(inputs[1])
-        print(f"{inputs[0]} to the power of {inputs[1]} equals {answer}")
-        prompt_main_menu_return()
-    except ValueError:
-        print(f"{Color.red}ERROR: Invalid inputs!{Markings.clear}")
-        time.sleep(2)
-
-def calculate_radical():
-    """Calculates the nth root using the original UI."""
-    clear_terminal()
-    print(f"{Color.green}{Markings.bold}____{Markings.clear}th root of ____")
-    print("ENTER VALUE      ")
-    val1 = get_numeric_input("")
-    
-    n = int(float(val1))
-    suffix = "th"
-    if n % 10 == 1 and n % 100 != 11:
-        suffix = "st"
-    elif n % 10 == 2 and n % 100 != 12:
-        suffix = "nd"
-    elif n % 10 == 3 and n % 100 != 13:
-        suffix = "rd"
-    
-    clear_terminal()
-    print(f"{n}{suffix} root of {Color.green}{Markings.bold}____{Markings.clear}")
-    print("ENTER VALUE")
-    val2 = get_numeric_input("")
-
-    if float(val2) < 0 and n % 2 == 0:
-        print(f"{Color.red}ERROR: Cannot calculate an even root of a negative number.{Markings.clear}")
-        time.sleep(2)
-        return
-
-    answer = float(val2) ** (1/n)
-    display_answer = answer
-    if answer.is_integer():
-        display_answer = int(answer)
-    else:
-        display_answer = round(answer, 3)
-
-    print(f"The {n}{suffix} root of {val2} is {display_answer}")
-    
-    if not answer.is_integer():
-        if input(f"Would you like more precision? ({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear})").strip().lower() == 'y':
-            print(f"The {n}{suffix} root of {val2} is {answer}")
-    
-    prompt_main_menu_return()
-
-
-def run_trig_menu():
-    """Handles the trigonometry sub-menu logic with original UI."""
-    command = trig_menu_prompt()
-    clear_terminal()
-    
-    trig_actions = {
-        's': handle_trig_calc, 'c': handle_trig_calc, 't': handle_trig_calc,
-        'as': handle_trig_calc, 'ac': handle_trig_calc, 'at': handle_trig_calc
-    }
-
-    if command in trig_actions:
-        trig_actions[command](command)
-    else:
-        print(f"{Color.red}ERROR: Invalid trig operation!{Markings.clear}")
-        time.sleep(2)
-
-def handle_trig_calc(op):
-    """Generic handler for all trig functions to restore original print logic."""
-    func_map = {
-        's': ('sin', 'sine', math.sin, False), 'c': ('cos', 'cosine', math.cos, False), 't': ('tan', 'tangent', math.tan, False),
-        'as': ('arcsin', 'arc sine', math.asin, True), 'ac': ('arccos', 'arc cosine', math.acos, True), 'at': ('arctan', 'arc tangent', math.atan, True)
-    }
-    
-    func_name, long_name, math_func, is_inverse = func_map[op]
-    
-    print(f"{func_name}({Color.green}{Markings.bold}___{Markings.clear}) ")
-    if is_inverse:
-        print("ENTER VALUE (-1 to 1)\n")
-    else:
-        print("ENTER VALUE (IN DEGREES)\n")
-    
-    trigvalue_str = get_numeric_input("")
-    trigvalue = float(trigvalue_str)
-
-    if is_inverse and (trigvalue < -1 or trigvalue > 1):
-        print(f"{Color.red}ERROR: Input must be between -1 and 1.{Markings.clear}")
-        time.sleep(2)
-        return
+    class Arithmetic:
         
-    if is_inverse:
-        answer_rad = math_func(trigvalue)
-        answer = math.degrees(answer_rad)
-    else:
-        answer = math_func(math.radians(trigvalue))
+        def __init__(self):
+            
+            pass
+        
+        def add(self):
+            
+            try:
+                get_inputs('+')
+                answer = int(inputs[0]) + int(inputs[1])
+                print(f"The sum of {str(inputs[0])} and {str(inputs[1])} is {str(answer)}")
+                prompt_main_menu_return()
+            except ValueError:
+                print(f"{Color.red}ERROR: Invalid inputs!{Markings.clear}")
+                return 1
+        
+        def subtract(self):
+            
+            try:
+                get_inputs('-')
+                answer = int(inputs[0]) - int(inputs[1])
+                print(f"The difference between {str(inputs[0])} and {str(inputs[1])} is {str(answer)}")
+            except ValueError:
+                print(f"{Color.red}ERROR: Invalid inputs!{Markings.clear}")
+                return 1
+        
+        def multiply(self):
+            
+            try:
+                get_inputs('*')
+                answer = int(inputs[0]) * int(inputs[1])
+                print(f"The product of {str(inputs[0])} and {str(inputs[1])} is {str(answer)}")
+            except ValueError:
+                print(f"{Color.red}ERROR: Invalid inputs!{Markings.clear}")
+                return 1
+        
+        def divide(self):
+            
+            get_inputs('/')
+            answer = 0.0
+            try:
+                answer = int(inputs[0]) / int(inputs[1])
+            except ZeroDivisionError:
+                print(f"{Color.red}ERROR: Cannot divide by zero!{Markings.clear}")
+                return 1
+            except ValueError:
+                print(f"{Color.red}ERROR: Invalid inputs!{Markings.clear}")
+                return 1
+            if answer.is_integer():
+                ans_int = int(answer)
+            print(f"The quotient of {str(inputs[0])} and {str(inputs[1])} is {str(ans_int)}")
+        
+        def exponent(self):
+            
+            try:
+                get_inputs('^')
+                answer = int(inputs[0]) ** int(inputs[1])
+                print(f"{str(inputs[0])} to the power of {str(inputs[1])} equals {str(answer)}")
+            except ValueError:
+                print(f"{Color.red}ERROR: Invalid inputs!{Markings.clear}")
+                return 1
+    
+    class Trig:
+        
+        def __init__(self): 
+            pass
 
-    if answer.is_integer():
-        ans_int = int(answer)
-        print(f"The {long_name} of {trigvalue_str} is {ans_int} degrees.")
-    else:
-        print(f"The {long_name} of {trigvalue_str} is {round(answer, 3)} degrees.")
-        if input(f"Would you like more precision? ({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear}) ").strip().lower() == 'y':
-            print(f"The {long_name} of {trigvalue_str} is {answer} degrees.")
-    prompt_main_menu_return()
+        def arcsin(self):
+            
+            print(f"arcsin({Color.green}{Markings.bold}___{Markings.clear}) ")
+            print("ENTER VALUE (-1 to 1)\n")
+            trigvalue = input().strip().lower()
+            answer = math.asin(float(trigvalue))
+            
+            if answer.is_integer():
+                ans_int = int(answer)
+                print(f"The arc sine of {trigvalue} is {ans_int} degrees.")
+                return
+                
+            print(f"The arc sine of {trigvalue} is {round(answer, 3)} degrees.")
+            if not answer.is_integer():
+                if input(f"Would you like more precision? ({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear}){Markings.clear} ").strip().lower() == 'y':
+                    print(f"The arc sine of {trigvalue} is {answer} degrees.")
+            
+        def arccos(self):
+            
+            print(f"arccos({Color.green}{Markings.bold}___{Markings.clear}) ")
+            print("ENTER VALUE (-1 to 1)\n")
+            trigvalue = input().strip().lower()
+            answer = math.acos(float(trigvalue))
+            
+            if answer.is_integer():
+                ans_int = int(answer)
+                print(f"The arc cosine of {trigvalue} is {ans_int} degrees.")
+                return
+                
+            print(f"The arc cosine of {trigvalue} is {round(answer, 3)} degrees.")
+            if not answer.is_integer():
+                if input(f"Would you like more precision? ({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear}){Markings.clear} ").strip().lower() == 'y':
+                    print(f"The arc cosine of {trigvalue} is {answer} degrees.")
+        
+        def arctan(self):
+            
+            print(f"arctan({Color.green}{Markings.bold}___{Markings.clear}) ")
+            print("ENTER VALUE (-1 to 1)\n")
+            trigvalue = input().strip().lower()
+            answer = math.atan(float(trigvalue))
+            
+            if answer.is_integer():
+                ans_int = int(answer)
+                print(f"The arc tangent of {trigvalue} is {ans_int} degrees.")
+                return
+                
+            print(f"The arc tangent of {trigvalue} is {round(answer, 3)} degrees.")
+            if not answer.is_integer():
+                if input(f"Would you like more precision? ({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear}){Markings.clear} ").strip().lower() == 'y':
+                    print(f"The arc tangent of {trigvalue} is {answer} degrees.")
+                    
+        def sin(self):
+            
+            print(f"sin({Color.green}{Markings.bold}___{Markings.clear}) ")
+            print("ENTER VALUE (IN DEGREES)\n")
+            trigvalue = input().strip().lower()
+            answer = math.sin(math.radians(float(trigvalue)))
+            
+            if answer.is_integer():
+                ans_int = int(answer)
+                print(f"The sine of {trigvalue} is {ans_int} degrees.")
+                return
+                
+            print(f"The sine of {trigvalue} is {round(answer, 3)} degrees.")
+            if not answer.is_integer():
+                if input(f"Would you like more precision? ({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear}){Markings.clear} ").strip().lower() == 'y':
+                    print(f"The sine of {trigvalue} is {answer} degrees.")
+            
+            
+        def cos(self):
+            
+            print(f"cos({Color.green}{Markings.bold}___{Markings.clear}) ")
+            print("ENTER VALUE (IN DEGREES)\n")
+            trigvalue = input().strip().lower()
+            answer = math.cos(math.radians(float(trigvalue)))
+            
+            if answer.is_integer():
+                ans_int = int(answer)
+                print(f"The cosine of {trigvalue} is {ans_int} degrees.")
+                return
+                
+            print(f"The cosine of {trigvalue} is {round(answer, 3)} degrees.")
+            if not answer.is_integer():
+                if input(f"Would you like more precision? ({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear}){Markings.clear} ").strip().lower() == 'y':
+                    print(f"The cosine of {trigvalue} is {answer} degrees.")
+            
+        def tan(self):
+            
+            print(f"tan({Color.green}{Markings.bold}___{Markings.clear}) ")
+            print("SELECT VALUE (IN DEGREES)\n")
+            trigvalue = input().strip().lower()
+            answer = math.tan(math.radians(float(trigvalue)))
+            
+            if answer.is_integer():
+                ans_int = int(answer)
+                print(f"The tangent of {trigvalue} is {ans_int} degrees.")
+                return
+                
+            print(f"The tangent of {trigvalue} is {round(answer, 3)} degrees.")
+            if not answer.is_integer():
+                if input(f"Would you like more precision? ({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear}){Markings.clear} ").strip().lower() == 'y':
+                    print(f"The tangent of {trigvalue} is {answer} degrees.")
+            
+    def radical(self):
+        
+        print(f"{Color.green}{Markings.bold}____{Markings.clear}th root of ____")
+        print("ENTER VALUE      ")
+        inputs[0] = input()
+        
+        suffix = "th"
+        if int(inputs[0]) % 10 == 1:
+            suffix = "st"
+        elif int(inputs[0]) % 10 == 2:
+            suffix = "nd"
+        elif int(inputs[0]) % 10 == 3:
+            suffix = "rd"
+        
+        print(f"{inputs[0]}{suffix} root of {Color.green}{Markings.bold}____{Markings.clear}")
+        print("ENTER VALUE")
+        inputs[1] = input()
+        
+        answer = float(inputs[1]) ** (1 / float(inputs[0])) # Radical in exponent form
+        
+        display_answer = 0
+        if answer.is_integer():            
+            display_answer = int(answer)
+        else:
+            display_answer = round(answer, 3)
+            
+        print(f"The {inputs[0]}{suffix} root of {inputs[1]} is {str(display_answer)}")
 
-def main_menu_prompt():
-    """Displays the main menu and returns the user's choice."""
+        if input(f"Would you like more precision? ({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear}){Markings.clear}") == 'y':            
+            print(f"The {inputs[0]}{suffix} root of {inputs[1]} is {str(answer)}")
+        
+        return 0
+    def simple_algebra(self):
+        print(f"First argument: {Color.green}_{Markings.clear} (x{Markings.superscript}0{Markings.clear})")
+
+def main_menu_prompt(): # Print main menu and recieve operation 
+    
     clear_terminal()
     print(f"{Color.green}***{Markings.bold}SELECT OPERATION{Markings.clear}{Color.green}***{Markings.clear}")
-    print(f"{Color.green}* *{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}+ = ADD          {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}- = SUBTRACT     {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}* = MULTIPLY     {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}/ = DIVIDE       {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}^ = EXPONENTIATE {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}t = TRIGONOMETRY {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}r = RADICAL      {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}q = QUIT         {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* *{Markings.clear}")
+    print(f"{Color.green}*                    *{Markings.clear}")
+    print(f"{Color.green}*  {Markings.bold}+ = ADD           {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}*  {Markings.bold}- = SUBTRACT      {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}*  {Markings.bold}* = MULTIPLY      {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}*  {Markings.bold}/ = DIVIDE        {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}*  {Markings.bold}^ = EXPONENTIATE  {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}*  {Markings.bold}t = TRIGONOMETRY  {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}*  {Markings.bold}r = RADICAL       {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}*  {Markings.bold}q = QUIT          {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}*                    *{Markings.clear}")
     print(f"{Color.green}**********************{Markings.clear}")
-    return input().strip().lower()
+    
+    command = input().strip().lower()
+    clear_terminal()
+    return command # return the input
 
-def trig_menu_prompt():
-    """Displays the trigonometry menu and returns the user's choice."""
+
+def trig_menu(): # Trig menu (also returns input)
+    
     clear_terminal()
     print(f"{Color.green}***{Markings.bold}TRIGONOMETRY{Markings.clear}{Color.green}***")
-    print(f"{Color.green}* {Color.green}*")
-    print(f"{Color.green}* {Markings.bold}s  = SINE     {Markings.clear}{Color.green}*")
-    print(f"{Color.green}* {Markings.bold}c  = COSINE   {Markings.clear}{Color.green}*")
-    print(f"{Color.green}* {Markings.bold}t  = TANGENT  {Markings.clear}{Color.green}*")
-    print(f"{Color.green}* {Markings.bold}as = ARCSIN   {Markings.clear}{Color.green}*")
-    print(f"{Color.green}* {Markings.bold}ac = ARCCOS   {Markings.clear}{Color.green}*")
-    print(f"{Color.green}* {Markings.bold}at = ARCTAN   {Markings.clear}{Color.green}*")
-    print(f"{Color.green}* *{Markings.clear}")
+    print(f"{Color.green}*                {Color.green}*")
+    print(f"{Color.green}* {Markings.bold}s  = SINE      {Markings.clear}{Color.green}*")
+    print(f"{Color.green}* {Markings.bold}c  = COSINE    {Markings.clear}{Color.green}*")
+    print(f"{Color.green}* {Markings.bold}t  = TANGENT   {Markings.clear}{Color.green}*")
+    print(f"{Color.green}* {Markings.bold}a_ = INVERSE   {Markings.clear}{Color.green}*")
+    print(f"{Color.green}*                *{Markings.clear}")
     print(f"{Color.green}******************{Markings.clear}")
-    return input().strip().lower()
+    
+    command = input().strip().lower()
+    clear_terminal()
+    return command
+
 
 def main():
-    """The main function to run the calculator application."""
-    while True:
-        operation = main_menu_prompt()
-        
-        if operation == '+':
-            calculate_add()
-        elif operation == '-':
-            calculate_subtract()
-        elif operation == '*':
-            calculate_multiply()
-        elif operation == '/':
-            calculate_divide()
-        elif operation == '^':
-            calculate_exponent()
-        elif operation == 'r':
-            calculate_radical()
-        elif operation == 't':
-            run_trig_menu()
-        elif operation == 'q':
-            quit_in = input(f"{Color.red}{Markings.bold}ARE YOU SURE YOU WANT TO QUIT? {Markings.clear}({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear})")
-            if quit_in.lower() == 'y':
-                clear_terminal()
-                print("Calculator closed. Goodbye!")
-                break
-        else:
-            print(f"{Color.red}ERROR: Invalid operation!{Markings.clear}")
-            time.sleep(2)
 
-if __name__ == "__main__":
-    main()
+    arithmetic = Calculate.Arithmetic()
+    radical = Calculate()
+    trig = Calculate.Trig()
+    operation = main_menu_prompt()
+
+    match operation:
+        
+        case '+':
+            arithmetic.add()
+
+        case '-':
+            arithmetic.subtract()
+            
+        case '*':
+            arithmetic.multiply()
+            
+        case '/':
+            arithmetic.divide()
+
+        case '^':
+            arithmetic.exponent()
+       
+        case 'r':
+            radical.radical()
+
+        case 'q':
+            quit_in = input(f"{Color.red}{Markings.bold}ARE YOU SURE YOU WANT TO QUIT? {Markings.clear}({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear})")
+            if quit_in == 'y':
+                quit()
+            elif quit_in == 'n':
+                main_menu_prompt()
+            else:
+                time_left = 3
+                while time_left >= 0:
+                    print(f"{Color.red}ERROR: Invalid input. Reverting to main menu in {str(round(time_left, 3)).zfill(3)} seconds.{Markings.clear}", end = '\r')
+                    time.sleep(0.01)
+                    time_left -= 0.01
+                clear_terminal()    
+        case 't':
+            
+            match trig_menu():
+                
+                case 'as':
+                    trig.arcsin()
+                    
+                case 'ac':
+                    trig.arccos()
+                    
+                case 'at':
+                    trig.arctan()
+                    
+                case 's':
+                    trig.sin()
+                    
+                case 'c':
+                    trig.cos()
+                    
+                case 't':
+                    trig.tan()
+                
+                case _:
+                    print(f"{Color.red}ERROR: Invalid trig operation!{Markings.clear}")
+        case _:
+            print(f"{Color.red}ERROR: Invalid operation!{Markings.clear}")
+while True: # Main loops forever
+        main()
+            
