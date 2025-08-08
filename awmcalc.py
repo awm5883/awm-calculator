@@ -79,7 +79,7 @@ def radical():
 def trig():
     clear()
     print("Trigonometry Menu")
-    print("s) sin  c) cos  t) tan")
+    print("s) sin   c) cos   t) tan")
     print("as) asin ac) acos at) atan")
     op = input("Select: ").lower()
 
@@ -115,13 +115,14 @@ def main():
     
     while True:
         clear()
-        print("--- Calculator ---")
-        print("+ Addition    - Subtraction")
+        print("------- Calculator -------")
+        print("+ Addition    - Subtract")
         print("* Multiply    / Divide")
         print("^ Exponent    r Radical")
         print("t Trigonometry")
         print("q Quit")
-        choice = input("Choose operation: ").lower()
+        print("\n\n\n\n")
+        choice = input("Choose operation: ").lower().strip()
 
         if choice == 'q':
             print("Goodbye!")
