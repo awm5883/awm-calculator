@@ -29,7 +29,7 @@ Date: 7/27/25
 import os
 import time
 import math
-from awmformat import Color, Markings
+from awmfrmt import Color, Markings
 first_time = True
 operation = None
 inputs = [0, 0]
