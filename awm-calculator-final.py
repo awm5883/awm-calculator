@@ -44,10 +44,6 @@ def clear_terminal():
     elif os.name == 'posix':
         import os  
         _ = os.system('clear')
-    # For TI (because calculator^2)
-    else:
-        import ti_system
-        ti_system.clear_history()
 
 def get_inputs(operation) -> None:
     
