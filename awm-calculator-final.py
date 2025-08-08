@@ -53,6 +53,9 @@ def clear_terminal():
     else:
         import ti_system
         ti_system.clear_history()
+<<<<<<< HEAD
+>>>>>>> parent of 0c4645a (Update awm-calculator-final.py)
+=======
 >>>>>>> parent of 0c4645a (Update awm-calculator-final.py)
 
 def prompt_main_menu_return():
