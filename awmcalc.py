@@ -121,7 +121,6 @@ def main():
         print("^ Exponent    r Radical")
         print("t Trigonometry")
         print("q Quit")
-        print("\n\n")
         choice = input("Choose operation: ").lower().strip()
 
         if choice == 'q':
