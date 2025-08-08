@@ -4,11 +4,10 @@
 import time
 import math
 from awmfrmt import Color, Markings
-import ti_system
 
 # --- Utility Functions ---
 def clear():
-    ti_system.clear_history()
+    print("\f")
 
 def get_input(prompt):
     while True:
