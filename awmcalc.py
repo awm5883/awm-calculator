@@ -1,30 +1,5 @@
-"""
-SEVEN-FUNCTION CALCULATOR (TI-84 Edition) V7.2.2
-
-A command-line calculator application providing seven core mathematical functions:
-addition, subtraction, multiplication, division, exponentiation, trigonometry,
-and radical (nth root) calculations.
-
-Features:
-- Menu-driven interface for selecting operations.
-- Handles basic arithmetic operations (+, -, *, /, ^).
-- Supports common trigonometric functions (sine, cosine, tangent) and their
-  inverse counterparts (arcsin, arccos, arctan), accepting input in degrees.
-- Calculates the nth root of a number.
-- Includes basic input validation to prevent common errors like division by zero
-  and non-numeric input.
-- Provides an option for more precision in radical and trigonometric results.
-- Allows the user to perform multiple calculations consecutively.
-
-Usage:
-Run the script from your terminal. Follow the on-screen prompts to select an
-operation and enter the required values.
-
-Notes: Stopped early reverts to main menu.
-
-Author: Aidan McMillan
-Date: 8/8/25
-"""
+# Python Calculator
+# Author: Aidan McMillan
 
 import ti_system
 import time
