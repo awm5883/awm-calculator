@@ -26,7 +26,6 @@ Author: Aidan McMillan
 Date: 7/27/25
 """
 
-import os
 import time
 import math
 from awmfrmt import Color, Markings
@@ -39,10 +38,16 @@ def clear_terminal():
     # Clears Terminal
     # For Windows
     if os.name == 'nt':
+        import os  
         _ = os.system('cls')
     # For Unix-like systems (Linux, macOS)
-    else:
+    elif os.name == 'posix':
+        import os  
         _ = os.system('clear')
+    # For TI (because calculator^2)
+    else:
+        import ti_system
+        ti_system.clear_history()
 
 def get_inputs(operation) -> None:
     
@@ -61,8 +66,7 @@ def prompt_main_menu_return() -> None:
     input = input("Press {Color.green}y{Markings.clear} to return to the main menu.")
     while not input == 'y':
         input = input("ERROR: Invalid input. Please press 'y' to return to the main menu.")
-    if input == 'y':
-        return
+    return
 
 class Calculate:
 
