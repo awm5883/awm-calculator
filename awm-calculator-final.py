@@ -30,7 +30,6 @@ import time
 import math
 import os
 from awmfrmt import Color, Markings
-first_time = True
 operation = None
 inputs = [0, 0]
 
