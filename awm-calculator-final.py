@@ -30,9 +30,6 @@ import time
 import math
 import os
 from awmfrmt import Color, Markings
-operation = None
-inputs = [0, 0]
-
 
 def clear_terminal():
     # Clears Terminal
