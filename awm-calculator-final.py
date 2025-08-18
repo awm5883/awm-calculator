@@ -272,8 +272,34 @@ class Calculate:
             print(f"The {inputs[0]}{suffix} root of {inputs[1]} is {str(answer)}")
         
         return 0
-    def simple_algebra(self):
-        print(f"First argument: {Color.green}_{Markings.clear} (x{Markings.superscript}0{Markings.clear})")
+    def algebra(self):
+        left_arguments = {}
+        print(f"Enter argument base: {Color.green}_{Markings.clear}x{Markings.superscript}_{Markings.clear}")
+        try:
+            arg_base = float(input())
+        except TypeError:
+            print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
+        except Exception as e:
+            print(f"{Color.red}ERROR: {e}")
+        print(f"Enter argument exponent: {arg_base}x{Markings.superscript}{Color.green}_{Markings.clear}")
+        try:
+            arg_power = float(input())
+        except TypeError:
+            print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
+        except Exception as e:
+            print(f"{Color.red}ERROR: {e}{Markings.clear}")
+        try:
+            left_arguments[arg_power] += arg_base
+        except Exception as e:
+            print(f"{Color.red}ERROR: {e}{Markings.clear}")
+        clear_terminal()
+        print(f"{Color.green}*****{Markings.bold}ALGEBRA{Markings.clear}{Color.green}*****{Markings.clear}")
+        print(f"{Color.green}*{Markings.bold} r = restart  {Markings.clear}{Color.green}*{Markings.clear}")
+        print(f"{Color.green}*               *{Markings.clear}")
+        print(f"{Color.green}*{Markings.bold} = = equals    {Markings.clear}{Color.green}*{Markings.clear}")
+        print(f"{Color.green}*{Markings.bold} a = argument  {Markings.clear}{Color.green}*{Markings.clear}")
+        print(f"{Color.green}*               *{Markings.clear}")
+        print(f"{Color.green}*****************{Markings.clear}")
 
 def main_menu_prompt(): # Print main menu and recieve operation 
     
