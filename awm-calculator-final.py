@@ -28,6 +28,7 @@ Date: 8/8/25
 
 import time
 import math
+import os
 from awmfrmt import Color, Markings
 first_time = True
 operation = None
@@ -38,11 +39,9 @@ def clear_terminal():
     # Clears Terminal
     # For Windows
     if os.name == 'nt':
-        import os  
         _ = os.system('cls')
     # For Unix-like systems (Linux, macOS)
     elif os.name == 'posix':
-        import os  
         _ = os.system('clear')
 
 def get_inputs(operation) -> None:
@@ -313,6 +312,7 @@ def main_menu_prompt(): # Print main menu and recieve operation
     print(f"{Color.green}*  {Markings.bold}^ = EXPONENTIATE  {Markings.clear}{Color.green}*{Markings.clear}")
     print(f"{Color.green}*  {Markings.bold}t = TRIGONOMETRY  {Markings.clear}{Color.green}*{Markings.clear}")
     print(f"{Color.green}*  {Markings.bold}r = RADICAL       {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}*  {Markings.bold}a = ALGEBRA       {Markings.clear}{Color.green}*{Markings.clear}")
     print(f"{Color.green}*  {Markings.bold}q = QUIT          {Markings.clear}{Color.green}*{Markings.clear}")
     print(f"{Color.green}*                    *{Markings.clear}")
     print(f"{Color.green}**********************{Markings.clear}")
@@ -342,7 +342,7 @@ def trig_menu(): # Trig menu (also returns input)
 def main():
 
     arithmetic = Calculate.Arithmetic()
-    radical = Calculate()
+    calculate = Calculate()
     trig = Calculate.Trig()
     operation = main_menu_prompt()
 
@@ -364,8 +364,11 @@ def main():
             arithmetic.exponent()
        
         case 'r':
-            radical.radical()
-
+            calculate.radical()
+          
+        case 'a':
+            calculate.algebra()
+  
         case 'q':
             quit_in = input(f"{Color.red}{Markings.bold}ARE YOU SURE YOU WANT TO QUIT? {Markings.clear}({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear})")
             if quit_in == 'y':
