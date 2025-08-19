@@ -268,7 +268,7 @@ class Calculate:
         
         return 0
     def algebra(self):
-        left_arguments = {}
+        left_arguments = []
         print(f"Enter argument base: {Color.green}_{Markings.clear}x{Markings.superscript}_{Markings.clear}")
         try:
             arg_base = float(input())
@@ -289,13 +289,14 @@ class Calculate:
             print(f"{Color.red}ERROR: {e}{Markings.clear}")
         clear_terminal()
         print(f"{Color.green}*****{Markings.bold}ALGEBRA{Markings.clear}{Color.green}*****{Markings.clear}")
-        print(f"{Color.green}*{Markings.bold} r = restart  {Markings.clear}{Color.green}*{Markings.clear}")
         print(f"{Color.green}*               *{Markings.clear}")
-        print(f"{Color.green}*{Markings.bold} = = equals    {Markings.clear}{Color.green}*{Markings.clear}")
+        print(f"{Color.green}*{Markings.bold} e = equals    {Markings.clear}{Color.green}*{Markings.clear}")
         print(f"{Color.green}*{Markings.bold} a = argument  {Markings.clear}{Color.green}*{Markings.clear}")
         print(f"{Color.green}*               *{Markings.clear}")
         print(f"{Color.green}*****************{Markings.clear}")
-
+        alg_restart = input().strip().lower()
+        if alg_restart == ''
+        
 def main_menu_prompt(): # Print main menu and recieve operation 
     
     clear_terminal()
