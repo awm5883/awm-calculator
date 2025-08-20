@@ -1,5 +1,5 @@
 """
-SEVEN-FUNCTION CALCULATOR V7.2.2
+SEVEN-FUNCTION CALCULATOR V7.2.3
 
 A command-line calculator application providing seven core mathematical functions:
 addition, subtraction, multiplication, division, exponentiation, trigonometry,
@@ -20,7 +20,7 @@ Usage:
 Run the script from your terminal. Follow the on-screen prompts to select an
 operation and enter the required values.
 
-Notes: Stopped early reverts to main menu.
+Notes: Adding simple algebraic expressions
 
 Author: Aidan McMillan
 Date: 8/8/25
@@ -270,15 +270,18 @@ class Calculate:
     def algebra(self):
         left_arguments = []
         alg_restart = None
+        
         while alg_restart != 'e':
-          print(f"Enter argument base: {Color.green}_{Markings.clear}x{Markings.superscript}_{Markings.clear}")
+          print(f"Enter argument base: {Color.green}_{Markings.clear}x^_{Markings.clear}")
+          
           try:
               arg_base = float(input())
           except TypeError:
               print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
           except Exception as e:
               print(f"{Color.red}ERROR: {e}")
-          print(f"Enter argument exponent: {arg_base}x{Markings.superscript}{Color.green}_{Markings.clear}")
+          print(f"Enter argument exponent: {arg_base}x^{Color.green}_{Markings.clear}")
+          
           try:
               arg_power = float(input())
           except TypeError:
@@ -289,6 +292,7 @@ class Calculate:
               left_arguments[arg_power] += arg_base
           except Exception as e:
               print(f"{Color.red}ERROR: {e}{Markings.clear}")
+          
           clear_terminal()
           print(f"{Color.green}*****{Markings.bold}ALGEBRA{Markings.clear}{Color.green}*****{Markings.clear}")
           print(f"{Color.green}*               *{Markings.clear}")
@@ -296,30 +300,37 @@ class Calculate:
           print(f"{Color.green}*{Markings.bold} a = argument  {Markings.clear}{Color.green}*{Markings.clear}")
           print(f"{Color.green}*               *{Markings.clear}")
           print(f"{Color.green}*****************{Markings.clear}")
+          
           while alg_restart != 'e' and alg_restart != 'a':  
             alg_restart = input().strip().lower()
             if alg_restart != 'e' and alg_restart != 'a':
               input("ERROR: Invalid input! Please enter 'e' or 'a'.\n")
-          left_arguments = []
+              
+          right_arguments = []
+        
         while alg_restart != 'f':
-          print(f"Enter argument base: {Color.green}_{Markings.clear}x{Markings.superscript}_{Markings.clear}")
+          print(f"Enter argument base: {Color.green}_{Markings.clear}x^_{Markings.clear}")
+          
           try:
               arg_base = float(input())
           except TypeError:
               print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
           except Exception as e:
               print(f"{Color.red}ERROR: {e}")
-          print(f"Enter argument exponent: {arg_base}x{Markings.superscript}{Color.green}_{Markings.clear}")
+          print(f"Enter argument exponent: {arg_base}x^{Color.green}_{Markings.clear}")
+          
           try:
               arg_power = float(input())
           except TypeError:
               print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
           except Exception as e:
               print(f"{Color.red}ERROR: {e}{Markings.clear}")
+          
           try:
-              left_arguments[arg_power] += arg_base
+              right_arguments[arg_power] += arg_base
           except Exception as e:
               print(f"{Color.red}ERROR: {e}{Markings.clear}")
+          
           clear_terminal()
           print(f"{Color.green}*****{Markings.bold}ALGEBRA{Markings.clear}{Color.green}*****{Markings.clear}")
           print(f"{Color.green}*               *{Markings.clear}")
@@ -328,7 +339,22 @@ class Calculate:
           print(f"{Color.green}*               *{Markings.clear}")
           print(f"{Color.green}*****************{Markings.clear}")
           
-        
+          while alg_restart != 'f' and alg_restart != 'a':  
+            alg_restart = input().strip().lower()
+            if alg_restart != 'f' and alg_restart != 'a':
+              input("ERROR: Invalid input! Please enter 'f' or 'a'.\n")
+          
+          i = 0   
+          for items in left_arguments:
+            if left_arguments[i] and right_arguments[i]:
+              left_arguments[i] -= right_arguments[i]
+              i += 1
+          
+          i = 0
+          for items in left_arguments:
+            print(f"{left_arguments[i]} + ")
+            i += 1
+          
 def main_menu_prompt(): # Print main menu and recieve operation 
     
     clear_terminal()
