@@ -1,5 +1,5 @@
 """
-SEVEN-FUNCTION CALCULATOR V7.2.2
+SEVEN-FUNCTION CALCULATOR V7.2.3
 
 A command-line calculator application providing seven core mathematical functions:
 addition, subtraction, multiplication, division, exponentiation, trigonometry,
@@ -20,7 +20,7 @@ Usage:
 Run the script from your terminal. Follow the on-screen prompts to select an
 operation and enter the required values.
 
-Notes: Stopped early reverts to main menu.
+Notes: Adding simple algebraic expressions
 
 Author: Aidan McMillan
 Date: 8/8/25
@@ -28,21 +28,16 @@ Date: 8/8/25
 
 import time
 import math
+import os
 from awmfrmt import Color, Markings
-first_time = True
-operation = None
-inputs = [0, 0]
-
 
 def clear_terminal():
     # Clears Terminal
     # For Windows
     if os.name == 'nt':
-        import os  
         _ = os.system('cls')
     # For Unix-like systems (Linux, macOS)
     elif os.name == 'posix':
-        import os  
         _ = os.system('clear')
 
 def get_inputs(operation) -> None:
@@ -272,9 +267,94 @@ class Calculate:
             print(f"The {inputs[0]}{suffix} root of {inputs[1]} is {str(answer)}")
         
         return 0
-    def simple_algebra(self):
-        print(f"First argument: {Color.green}_{Markings.clear} (x{Markings.superscript}0{Markings.clear})")
-
+    def algebra(self):
+        left_arguments = []
+        alg_restart = None
+        
+        while alg_restart != 'e':
+          print(f"Enter argument base: {Color.green}_{Markings.clear}x^_{Markings.clear}")
+          
+          try:
+              arg_base = float(input())
+          except TypeError:
+              print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
+          except Exception as e:
+              print(f"{Color.red}ERROR: {e}")
+          print(f"Enter argument exponent: {arg_base}x^{Color.green}_{Markings.clear}")
+          
+          try:
+              arg_power = float(input())
+          except TypeError:
+              print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
+          except Exception as e:
+              print(f"{Color.red}ERROR: {e}{Markings.clear}")
+          try:
+              left_arguments[arg_power] += arg_base
+          except Exception as e:
+              print(f"{Color.red}ERROR: {e}{Markings.clear}")
+          
+          clear_terminal()
+          print(f"{Color.green}*****{Markings.bold}ALGEBRA{Markings.clear}{Color.green}*****{Markings.clear}")
+          print(f"{Color.green}*               *{Markings.clear}")
+          print(f"{Color.green}*{Markings.bold} e = equals    {Markings.clear}{Color.green}*{Markings.clear}")
+          print(f"{Color.green}*{Markings.bold} a = argument  {Markings.clear}{Color.green}*{Markings.clear}")
+          print(f"{Color.green}*               *{Markings.clear}")
+          print(f"{Color.green}*****************{Markings.clear}")
+          
+          while alg_restart != 'e' and alg_restart != 'a':  
+            alg_restart = input().strip().lower()
+            if alg_restart != 'e' and alg_restart != 'a':
+              input("ERROR: Invalid input! Please enter 'e' or 'a'.\n")
+              
+          right_arguments = []
+        
+        while alg_restart != 'f':
+          print(f"Enter argument base: {Color.green}_{Markings.clear}x^_{Markings.clear}")
+          
+          try:
+              arg_base = float(input())
+          except TypeError:
+              print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
+          except Exception as e:
+              print(f"{Color.red}ERROR: {e}")
+          print(f"Enter argument exponent: {arg_base}x^{Color.green}_{Markings.clear}")
+          
+          try:
+              arg_power = float(input())
+          except TypeError:
+              print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
+          except Exception as e:
+              print(f"{Color.red}ERROR: {e}{Markings.clear}")
+          
+          try:
+              right_arguments[arg_power] += arg_base
+          except Exception as e:
+              print(f"{Color.red}ERROR: {e}{Markings.clear}")
+          
+          clear_terminal()
+          print(f"{Color.green}*****{Markings.bold}ALGEBRA{Markings.clear}{Color.green}*****{Markings.clear}")
+          print(f"{Color.green}*               *{Markings.clear}")
+          print(f"{Color.green}*{Markings.bold} f = finish    {Markings.clear}{Color.green}*{Markings.clear}")
+          print(f"{Color.green}*{Markings.bold} a = argument  {Markings.clear}{Color.green}*{Markings.clear}")
+          print(f"{Color.green}*               *{Markings.clear}")
+          print(f"{Color.green}*****************{Markings.clear}")
+          
+          while alg_restart != 'f' and alg_restart != 'a':  
+            alg_restart = input().strip().lower()
+            if alg_restart != 'f' and alg_restart != 'a':
+              input("ERROR: Invalid input! Please enter 'f' or 'a'.\n")
+          
+          i = 0   
+          for items in left_arguments:
+            if left_arguments[i] and right_arguments[i]:
+              left_arguments[i] -= right_arguments[i]
+              i += 1
+          
+          i = 0
+          for items in left_arguments:
+            print(f"{left_arguments[i]} + ")
+            i += 1
+          
 def main_menu_prompt(): # Print main menu and recieve operation 
     
     clear_terminal()
@@ -287,6 +367,7 @@ def main_menu_prompt(): # Print main menu and recieve operation
     print(f"{Color.green}*  {Markings.bold}^ = EXPONENTIATE  {Markings.clear}{Color.green}*{Markings.clear}")
     print(f"{Color.green}*  {Markings.bold}t = TRIGONOMETRY  {Markings.clear}{Color.green}*{Markings.clear}")
     print(f"{Color.green}*  {Markings.bold}r = RADICAL       {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}*  {Markings.bold}a = ALGEBRA       {Markings.clear}{Color.green}*{Markings.clear}")
     print(f"{Color.green}*  {Markings.bold}q = QUIT          {Markings.clear}{Color.green}*{Markings.clear}")
     print(f"{Color.green}*                    *{Markings.clear}")
     print(f"{Color.green}**********************{Markings.clear}")
@@ -316,7 +397,7 @@ def trig_menu(): # Trig menu (also returns input)
 def main():
 
     arithmetic = Calculate.Arithmetic()
-    radical = Calculate()
+    calculate = Calculate()
     trig = Calculate.Trig()
     operation = main_menu_prompt()
 
@@ -338,8 +419,11 @@ def main():
             arithmetic.exponent()
        
         case 'r':
-            radical.radical()
-
+            calculate.radical()
+          
+        case 'a':
+            calculate.algebra()
+  
         case 'q':
             quit_in = input(f"{Color.red}{Markings.bold}ARE YOU SURE YOU WANT TO QUIT? {Markings.clear}({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear})")
             if quit_in == 'y':
