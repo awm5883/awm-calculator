@@ -269,6 +269,7 @@ class Calculate:
         return 0
     def algebra(self):
         left_arguments = []
+        alg_restart = None
         while alg_restart != 'e':
           print(f"Enter argument base: {Color.green}_{Markings.clear}x{Markings.superscript}_{Markings.clear}")
           try:
@@ -298,7 +299,34 @@ class Calculate:
           while alg_restart != 'e' and alg_restart != 'a':  
             alg_restart = input().strip().lower()
             if alg_restart != 'e' and alg_restart != 'a':
-              input("ERROR: Invalid input! Please enter 'e' or 'a'.")
+              input("ERROR: Invalid input! Please enter 'e' or 'a'.\n")
+          left_arguments = []
+        while alg_restart != 'f':
+          print(f"Enter argument base: {Color.green}_{Markings.clear}x{Markings.superscript}_{Markings.clear}")
+          try:
+              arg_base = float(input())
+          except TypeError:
+              print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
+          except Exception as e:
+              print(f"{Color.red}ERROR: {e}")
+          print(f"Enter argument exponent: {arg_base}x{Markings.superscript}{Color.green}_{Markings.clear}")
+          try:
+              arg_power = float(input())
+          except TypeError:
+              print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
+          except Exception as e:
+              print(f"{Color.red}ERROR: {e}{Markings.clear}")
+          try:
+              left_arguments[arg_power] += arg_base
+          except Exception as e:
+              print(f"{Color.red}ERROR: {e}{Markings.clear}")
+          clear_terminal()
+          print(f"{Color.green}*****{Markings.bold}ALGEBRA{Markings.clear}{Color.green}*****{Markings.clear}")
+          print(f"{Color.green}*               *{Markings.clear}")
+          print(f"{Color.green}*{Markings.bold} f = finish    {Markings.clear}{Color.green}*{Markings.clear}")
+          print(f"{Color.green}*{Markings.bold} a = argument  {Markings.clear}{Color.green}*{Markings.clear}")
+          print(f"{Color.green}*               *{Markings.clear}")
+          print(f"{Color.green}*****************{Markings.clear}")
           
         
 def main_menu_prompt(): # Print main menu and recieve operation 
