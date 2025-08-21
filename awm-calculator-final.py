@@ -1,5 +1,5 @@
 """
-SEVEN-FUNCTION CALCULATOR V7.2.3
+SEVEN-FUNCTION CALCULATOR V7.2.4
 
 A command-line calculator application providing seven core mathematical functions:
 addition, subtraction, multiplication, division, exponentiation, trigonometry,
@@ -20,10 +20,10 @@ Usage:
 Run the script from your terminal. Follow the on-screen prompts to select an
 operation and enter the required values.
 
-Notes: Adding simple algebraic expressions
+Notes: Continued adding simple algebraic expressions
 
 Author: Aidan McMillan
-Date: 8/8/25
+Date: 8/20/25
 """
 
 import time
@@ -268,10 +268,13 @@ class Calculate:
         
         return 0
     def algebra(self):
-        left_arguments = []
+        left_terms = []
+        left_arguments = {}
+        right_arguments = {}
         alg_restart = None
         
         while alg_restart != 'e':
+          alg_restart = 'z'
           print(f"Enter argument base: {Color.green}_{Markings.clear}x^_{Markings.clear}")
           
           try:
@@ -289,26 +292,34 @@ class Calculate:
           except Exception as e:
               print(f"{Color.red}ERROR: {e}{Markings.clear}")
           try:
-              left_arguments[arg_power] += arg_base
+              left_arguments[arg_power] = left_arguments.get(arg_power, 0) + arg_base
           except Exception as e:
               print(f"{Color.red}ERROR: {e}{Markings.clear}")
           
           clear_terminal()
-          print(f"{Color.green}*****{Markings.bold}ALGEBRA{Markings.clear}{Color.green}*****{Markings.clear}")
-          print(f"{Color.green}*               *{Markings.clear}")
-          print(f"{Color.green}*{Markings.bold} e = equals    {Markings.clear}{Color.green}*{Markings.clear}")
-          print(f"{Color.green}*{Markings.bold} a = argument  {Markings.clear}{Color.green}*{Markings.clear}")
-          print(f"{Color.green}*               *{Markings.clear}")
-          print(f"{Color.green}*****************{Markings.clear}")
+          print("Current arguments: ", end='')
+          i = 0
+          first_term = True
+          for power, base in left_arguments.items():
+            if base.is_integer():
+              base = str(int(base))
+            if power.is_integer():
+              power = str(int(power))
+            
+            if not first_term == True:
+              print(" + ", end = '')
+              
+            print(f"{base}x^{power}", end='')
+            first_term = False
           
+          print("\nEnter 'e' to enter an equals sign and 'a' to add another argument.")  
           while alg_restart != 'e' and alg_restart != 'a':  
             alg_restart = input().strip().lower()
             if alg_restart != 'e' and alg_restart != 'a':
               input("ERROR: Invalid input! Please enter 'e' or 'a'.\n")
-              
-          right_arguments = []
         
         while alg_restart != 'f':
+          alg_restart = 'z'
           print(f"Enter argument base: {Color.green}_{Markings.clear}x^_{Markings.clear}")
           
           try:
@@ -325,35 +336,32 @@ class Calculate:
               print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
           except Exception as e:
               print(f"{Color.red}ERROR: {e}{Markings.clear}")
-          
           try:
-              right_arguments[arg_power] += arg_base
+              right_arguments[arg_power] = right_arguments.get(arg_power, 0) + arg_base
           except Exception as e:
               print(f"{Color.red}ERROR: {e}{Markings.clear}")
           
           clear_terminal()
-          print(f"{Color.green}*****{Markings.bold}ALGEBRA{Markings.clear}{Color.green}*****{Markings.clear}")
-          print(f"{Color.green}*               *{Markings.clear}")
-          print(f"{Color.green}*{Markings.bold} f = finish    {Markings.clear}{Color.green}*{Markings.clear}")
-          print(f"{Color.green}*{Markings.bold} a = argument  {Markings.clear}{Color.green}*{Markings.clear}")
-          print(f"{Color.green}*               *{Markings.clear}")
-          print(f"{Color.green}*****************{Markings.clear}")
+          print("Current arguments: ", end='')
+          i = 0
+          first_term = True
+          for power, base in right_arguments.items():
+            if base.is_integer():
+              base = int(base)
+            if power.is_integer():
+              power = int(power)
+            
+            if not first_term == True:
+              print(" + ", end = '')
+              
+            print(f"{base}x^{power}", end='')
+            first_term = False
           
+          print("\nEnter 'f' to finish and simplify and 'a' to add another argument.")  
           while alg_restart != 'f' and alg_restart != 'a':  
             alg_restart = input().strip().lower()
             if alg_restart != 'f' and alg_restart != 'a':
               input("ERROR: Invalid input! Please enter 'f' or 'a'.\n")
-          
-          i = 0   
-          for items in left_arguments:
-            if left_arguments[i] and right_arguments[i]:
-              left_arguments[i] -= right_arguments[i]
-              i += 1
-          
-          i = 0
-          for items in left_arguments:
-            print(f"{left_arguments[i]} + ")
-            i += 1
           
 def main_menu_prompt(): # Print main menu and recieve operation 
     
