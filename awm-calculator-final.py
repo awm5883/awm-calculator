@@ -31,6 +31,10 @@ import math
 import os
 from awmfrmt import Color, Markings
 
+left_arguments = {}
+right_arguments = {}
+inputs = [None, None]
+
 def clear_terminal():
     # Clears Terminal
     # For Windows
@@ -115,7 +119,9 @@ class Calculate:
                 return 1
             if answer.is_integer():
                 ans_int = int(answer)
-            print(f"The quotient of {str(inputs[0])} and {str(inputs[1])} is {str(ans_int)}")
+                print(f"The quotient of {str(inputs[0])} and {str(inputs[1])} is {str(ans_int)}")
+            else:
+                print(f"The quotient of {str(inputs[0])} and {str(inputs[1])} is {str(answer)}")
         
         def exponent(self):
             
@@ -137,7 +143,7 @@ class Calculate:
             print(f"arcsin({Color.green}{Markings.bold}___{Markings.clear}) ")
             print("ENTER VALUE (-1 to 1)\n")
             trigvalue = input().strip().lower()
-            answer = math.asin(float(trigvalue))
+            answer = math.degrees(math.asin(float(trigvalue)))
             
             if answer.is_integer():
                 ans_int = int(answer)
@@ -154,7 +160,7 @@ class Calculate:
             print(f"arccos({Color.green}{Markings.bold}___{Markings.clear}) ")
             print("ENTER VALUE (-1 to 1)\n")
             trigvalue = input().strip().lower()
-            answer = math.acos(float(trigvalue))
+            answer = math.degrees(math.acos(float(trigvalue)))
             
             if answer.is_integer():
                 ans_int = int(answer)
@@ -171,7 +177,7 @@ class Calculate:
             print(f"arctan({Color.green}{Markings.bold}___{Markings.clear}) ")
             print("ENTER VALUE (-1 to 1)\n")
             trigvalue = input().strip().lower()
-            answer = math.atan(float(trigvalue))
+            answer = math.degrees(math.atan(float(trigvalue)))
             
             if answer.is_integer():
                 ans_int = int(answer)
@@ -269,9 +275,8 @@ class Calculate:
         return 0
     def algebra(self):
         left_terms = []
-        left_arguments = {}
-        right_arguments = {}
         alg_restart = None
+        global left_arguments
         
         while alg_restart != 'e':
           alg_restart = 'z'
@@ -298,7 +303,6 @@ class Calculate:
           
           clear_terminal()
           print("Current arguments: ", end='')
-          i = 0
           first_term = True
           for power, base in left_arguments.items():
             if base.is_integer():
@@ -316,8 +320,9 @@ class Calculate:
           while alg_restart != 'e' and alg_restart != 'a':  
             alg_restart = input().strip().lower()
             if alg_restart != 'e' and alg_restart != 'a':
-              input("ERROR: Invalid input! Please enter 'e' or 'a'.\n")
-        
+              print("ERROR: Invalid input! Please enter 'e' or 'a'.")
+              
+          
         while alg_restart != 'f':
           alg_restart = 'z'
           print(f"Enter argument base: {Color.green}_{Markings.clear}x^_{Markings.clear}")
@@ -342,14 +347,29 @@ class Calculate:
               print(f"{Color.red}ERROR: {e}{Markings.clear}")
           
           clear_terminal()
+          
           print("Current arguments: ", end='')
-          i = 0
+          first_term = True
+          for power, base in left_arguments.items():
+            if base.is_integer():
+              base = str(int(base))
+            if power.is_integer():
+              power = str(int(power))
+              
+            if not first_term == True:
+              print(" + ", end = '')
+            
+            print(f"{base}x^{power}", end='')
+            first_term = False
+          
+          print(" = ", end = '')
+          
           first_term = True
           for power, base in right_arguments.items():
             if base.is_integer():
-              base = int(base)
+              base = str(int(base))
             if power.is_integer():
-              power = int(power)
+              power = str(int(power))
             
             if not first_term == True:
               print(" + ", end = '')
@@ -361,8 +381,50 @@ class Calculate:
           while alg_restart != 'f' and alg_restart != 'a':  
             alg_restart = input().strip().lower()
             if alg_restart != 'f' and alg_restart != 'a':
-              input("ERROR: Invalid input! Please enter 'f' or 'a'.\n")
+              print("ERROR: Invalid input! Please enter 'f' or 'a'.")
+              
+        for power, base in left_arguments.items():
+          if right_arguments.get(power):
+            left_arguments[power] -= right_arguments[power]
+            del(right_arguments[power])
+        
+        print("The simplified expression is:")
+        first_term = True
+        for power, base in left_arguments.items():
+          if base.is_integer():
+              base = str(int(base))
+          if power.is_integer():
+            power = str(int(power))
           
+          if first_term == False:
+            print(" + ", end = '')
+            
+          print(f"{base}x^{power}", end='')
+          first_term = False
+        
+        if not left_arguments:
+          print("0")
+          
+        print(" = ", end = '')
+        
+        first_term = True
+        for power, base in right_arguments.items():
+          if base.is_integer():
+              base = str(int(base))
+          if power.is_integer():
+            power = str(int(power))
+          
+          if first_term == False:
+            print(" + ", end = '')
+              
+            print(f"{base}x^{power}", end='')
+            first_term = False
+        
+        if not right_arguments:
+          print("0")
+        
+        input("\nPress ENTER to continue.")
+              
 def main_menu_prompt(): # Print main menu and recieve operation 
     
     clear_terminal()
