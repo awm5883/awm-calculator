@@ -1,5 +1,5 @@
 """
-SEVEN-FUNCTION CALCULATOR V7.2.4
+SEVEN-FUNCTION CALCULATOR V8.0
 
 A command-line calculator application providing seven core mathematical functions:
 addition, subtraction, multiplication, division, exponentiation, trigonometry,
@@ -11,6 +11,7 @@ Features:
 - Supports common trigonometric functions (sine, cosine, tangent) and their
   inverse counterparts (arcsin, arccos, arctan), accepting input in degrees.
 - Calculates the nth root of a number.
+- Simplifies algebraic expressions
 - Includes basic input validation to prevent common errors like division by zero
   and non-numeric input.
 - Provides an option for more precision in radical and trigonometric results.
@@ -20,10 +21,10 @@ Usage:
 Run the script from your terminal. Follow the on-screen prompts to select an
 operation and enter the required values.
 
-Notes: Continued adding simple algebraic expressions
+Notes: Finished algebra v!
 
 Author: Aidan McMillan
-Date: 8/20/25
+Date: 8/22/25
 """
 
 import time
@@ -309,7 +310,6 @@ class Calculate:
               base = str(int(base))
             if power.is_integer():
               power = str(int(power))
-            
             if not first_term == True:
               print(" + ", end = '')
               
