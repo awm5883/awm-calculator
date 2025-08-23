@@ -22,7 +22,7 @@ A python calculator made by Aidan McMillan (@arduinohatesme, @launchpadinc-ai) a
 `[0, 0]`       -> This is an example of a list. Lists store multiple values and are dynamic like variables. \
 `True`         -> This is an example of a boolean. Booleans can be either `True` or `False` and are used for logic operations like `and`, `or`, and `not`. \
 `def`          -> This is a function defenition, and allows you to run a block of code whenever the function is called. \
-`class`        -> Classes are objects with functions inside them that all have a set of shared properties. \
+`class`        -> Classes are objects with functions inside them that all have a set of shared properties. They are usually used to control multiple objects. \
 `(first_time)` -> This is an example of an argument. Arguments are values passed into a function that the function uses in its logic. \
 `return`       -> Returns mean that functions can be treated like variables, being equal to the returned value. They are often used in debugging code. \
 `if`           -> Runs the indented code inside if the statement is `True`. \
