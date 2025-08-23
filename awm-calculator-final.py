@@ -452,7 +452,7 @@ def main():
     """
     operation = main_menu_prompt()
 
-    if operation in ('+', '-', '*', '/', '^')
+    if operation in ('+', '-', '*', '/', '^'):
         arithmetic(operation)
   
     elif operation == 'r':
