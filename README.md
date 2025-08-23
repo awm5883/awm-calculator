@@ -4,10 +4,10 @@ A python calculator made by Aidan McMillan (@arduinohatesme, @launchpadinc-ai) a
 
 ## How To Use 🤔
 
-1. Download 'awm-calculator-final.py' and 'awmformat.py'
-2. Install python 3 if you haven't already.
+1. Download `awm-calculator-final.py` and `awmformat.py`
+2. Install python 3 if you haven`t already.
 3. Navigate to the downloads directory in Terminal.
-4. Type 'python awm-calculator-final.py'
+4. Type `python awm-calculator-final.py` in Terminal
 5. Finish your math homework!
 
 ## Planned Updates 🧠
