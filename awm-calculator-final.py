@@ -1,5 +1,5 @@
 """
-SEVEN-FUNCTION CALCULATOR V9.0
+SEVEN-FUNCTION CALCULATOR V9.0.1
 
 Features:
 - Menu-driven interface for selecting operations.
@@ -17,7 +17,7 @@ Usage:
 Run the script from your terminal. Follow the on-screen prompts to select an
 operation and enter the required values.
 
-Notes: Complete code refactoring (removed class structure, simplified arithmetic, updated docstring, updated algebra)
+Notes: Reordered functions
 
 Author: Aidan McMillan
 Date: 8/22/25
@@ -40,6 +40,44 @@ def clear_terminal():
     # For Unix-like systems (Linux, macOS)
     elif os.name == 'posix':
         _ = os.system('clear')
+      
+def main_menu_prompt(): # Print main menu and recieve operation 
+    
+    clear_terminal()
+    print(f"{Color.green}***{Markings.bold}SELECT OPERATION{Markings.clear}{Color.green}***{Markings.clear}")
+    print(f"{Color.green}*                    *{Markings.clear}")
+    print(f"{Color.green}* {Markings.bold}+ = ADD            {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}* {Markings.bold}- = SUBTRACT       {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}* {Markings.bold}* = MULTIPLY       {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}* {Markings.bold}/ = DIVIDE         {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}* {Markings.bold}^ = EXPONENTIATE   {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}* {Markings.bold}t = TRIGONOMETRY   {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}* {Markings.bold}r = RADICAL        {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}* {Markings.bold}a = ALGEBRA        {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}* {Markings.bold}q = QUIT           {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}*                    *{Markings.clear}")
+    print(f"{Color.green}**********************{Markings.clear}")
+    
+    command = input().strip().lower()
+    clear_terminal()
+    return command # return the input
+
+
+def trig_menu(): # Trig menu (also returns input)
+    
+    clear_terminal()
+    print(f"{Color.green}***{Markings.bold}TRIGONOMETRY{Markings.clear}{Color.green}***")
+    print(f"{Color.green}*                *{Markings.clear}")
+    print(f"{Color.green}* {Markings.bold}s  = SINE      {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}* {Markings.bold}c  = COSINE    {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}* {Markings.bold}t  = TANGENT   {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}* {Markings.bold}a_ = INVERSE   {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}*                *{Markings.clear}")
+    print(f"{Color.green}******************{Markings.clear}")
+    
+    command = input().strip().lower()
+    clear_terminal()
+    return command
 
 def arithmetic(operation) -> None:
     
@@ -351,45 +389,6 @@ def algebra():
         print("0")
     
     input("\nPress ENTER to continue.")
-            
-def main_menu_prompt(): # Print main menu and recieve operation 
-    
-    clear_terminal()
-    print(f"{Color.green}***{Markings.bold}SELECT OPERATION{Markings.clear}{Color.green}***{Markings.clear}")
-    print(f"{Color.green}*                    *{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}+ = ADD            {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}- = SUBTRACT       {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}* = MULTIPLY       {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}/ = DIVIDE         {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}^ = EXPONENTIATE   {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}t = TRIGONOMETRY   {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}r = RADICAL        {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}a = ALGEBRA        {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}q = QUIT           {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}*                    *{Markings.clear}")
-    print(f"{Color.green}**********************{Markings.clear}")
-    
-    command = input().strip().lower()
-    clear_terminal()
-    return command # return the input
-
-
-def trig_menu(): # Trig menu (also returns input)
-    
-    clear_terminal()
-    print(f"{Color.green}***{Markings.bold}TRIGONOMETRY{Markings.clear}{Color.green}***")
-    print(f"{Color.green}*                *{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}s  = SINE      {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}c  = COSINE    {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}t  = TANGENT   {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}a_ = INVERSE   {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}*                *{Markings.clear}")
-    print(f"{Color.green}******************{Markings.clear}")
-    
-    command = input().strip().lower()
-    clear_terminal()
-    return command
-
 
 def main():
 
