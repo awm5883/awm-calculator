@@ -1,5 +1,5 @@
 """
-SEVEN-FUNCTION CALCULATOR V9.1
+SEVEN-FUNCTION CALCULATOR V9.2
 
 Features:
 - Menu-driven interface for selecting operations.
@@ -17,7 +17,7 @@ Usage:
 Run the script from your terminal. Follow the on-screen prompts to select an
 operation and enter the required values.
 
-Notes: Added function docstrings and replaced match/case with if/elif/else
+Notes: Updated docstrings
 
 Author: Aidan McMillan
 Date: 8/22/25
