@@ -34,12 +34,13 @@ inputs = [None, None]
 
 def clear_terminal():
     """
-    Clears command prompt.
+    ### Clear Terminal
+    Clears user command prompt
 
-    Args:
-    None
-    Returns:
-    None
+    * **Args:**
+        * None
+    * **Returns:**
+        * None
     """
     # Windows
     if os.name == 'nt':
@@ -50,12 +51,13 @@ def clear_terminal():
       
 def main_menu_prompt():
     """
-    Prints the main menu and prompts an input from the user
+    ### Main Menu Prompt
+    Prints main menu and gets operation to perform
 
-    Args:
-    None
-    Returns:
-    Entered operation
+    * **Args:**
+        * None
+    * **Returns:**
+        * Operation to perform
     """
     clear_terminal()
     print(f"{Color.green}***{Markings.bold}SELECT OPERATION{Markings.clear}{Color.green}***{Markings.clear}")
@@ -77,14 +79,15 @@ def main_menu_prompt():
     return command # return the input
 
 
-def trig_menu(): # Trig menu (also returns input)
+def trig_menu():
     """
-    Prints trigonometry menu and prompts an input from the user
+    ### Trig menu
+    Prints menu and gets input for trig expression
 
-    Args:
-    None
-    Returns:
-    Entered trig operation
+    * **Args:**
+        * None
+    * **Returns:**
+        * Trig command (command)
     """
     clear_terminal()
     print(f"{Color.green}***{Markings.bold}TRIGONOMETRY{Markings.clear}{Color.green}***")
@@ -102,12 +105,13 @@ def trig_menu(): # Trig menu (also returns input)
 
 def arithmetic(operation) -> None:
     """
-    Performs and prints arithmetic operation
+    ### Arithmetic
+    Gets input and performs an arithmetic operation (+, -, /, *, ^)
 
-    Args:
-    Operation
-    Returns:
-    0 (Ran successfully) or 1 (Error occurred)
+    * **Args:**
+        * Operation to perform
+    * **Returns:**
+        * None
     """
     clear_terminal()
     print(f"{Color.green}{Markings.bold}_____{Markings.clear} {operation} ____")
@@ -148,7 +152,6 @@ def arithmetic(operation) -> None:
                 answer = float(inputs[0]) / float(inputs[1])
             except ZeroDivisionError:
                 print(f"{Color.red}ERROR: Cannot divide by zero!{Markings.clear}")
-                return 1
         
         elif operation == '^':
             answer = inputs[0] ** inputs[1]
@@ -167,20 +170,19 @@ def arithmetic(operation) -> None:
     except ValueError:
         print(f"{Color.red}ERROR: Invalid inputs!{Markings.clear}")
         input("Press ENTER to return to the main menu.")
-        return 1
     except Exception as e:
         print(f"{Color.red}ERROR: {e}{Markings.clear}")
         input("Press ENTER to return to the main menu.")
-        return 1
 
 def trig(operation):
     """
-    Performs and prints trigonometry operation
+    ### Trigonometry
+    Gets inputs for and calculates a trigonometric expression
 
-    Args:
-    Operation
-    Returns:
-    None
+    * **Args:**
+        * None
+    * **Returns:**
+        * None
     """
     operation_str = {
       'as' : "arc sine",
@@ -245,12 +247,13 @@ def trig(operation):
 
 def radical():
     """
-    Performs and prints radicals
+    ### Radical
+    Gets input and calculates nth root of a number
 
-    Args:
-    None
-    Returns:
-    None
+    * **Args:**
+        * None
+    * **Returns:**
+        * None
     """
     print(f"{Color.green}{Markings.bold}_____{Markings.clear}th root of ____")
     print("ENTER VALUE     ")
@@ -280,17 +283,16 @@ def radical():
 
     if input(f"Would you like more precision? ({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear}){Markings.clear}") == 'y':                
         print(f"The {inputs[0]}{suffix} root of {inputs[1]} is {str(answer)}")
-    
-    return 0
-    
+
 def algebra():
     """
+    ### Algebra
     Gets input and simplifies an algebraic expression
 
-    Args:
-    None
-    Returns:
-    None
+    * **Args:**
+        * None
+    * **Returns:**
+        * None
     """
     alg_restart = None
     global left_arguments
@@ -443,12 +445,13 @@ def algebra():
 
 def main():
     """
-    Main function: runs correct function based on input
+    ### Main function
+    Main body of code
 
-    Args:
-    None
-    Returns:
-    None
+    * **Args:**
+        * None
+    * **Returns:**
+        * None
     """
     operation = main_menu_prompt()
 
