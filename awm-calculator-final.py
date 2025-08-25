@@ -1,5 +1,5 @@
 """
-SEVEN-FUNCTION CALCULATOR V9.2
+SEVEN-FUNCTION CALCULATOR V9.3 [UNSTABLE]
 
 Features:
 - Menu-driven interface for selecting operations.
@@ -17,7 +17,7 @@ Usage:
 Run the script from your terminal. Follow the on-screen prompts to select an
 operation and enter the required values.
 
-Notes: Updated docstrings
+Notes: Begun algebra solve addition
 
 Author: Aidan McMillan
 Date: 8/22/25
@@ -26,6 +26,9 @@ Date: 8/22/25
 import time
 import math
 import os
+from sympy.solvers import solve
+from sympy import Symbol
+from sympy import Eq
 from awmfrmt import Color, Markings
 
 left_arguments = {}
@@ -102,6 +105,25 @@ def trig_menu():
     command = input().strip().lower()
     clear_terminal()
     return command
+
+def solve_algebra(arguments):
+    """
+    ### Solve Algebra
+    
+    * **Args:**
+        * Arguments: A list of arguments to solve, set equal to 0.
+    * **Returns:**
+        * None
+    """
+    expression = ""
+    first_time = True
+    x = Symbol('x')
+    for power, base in arguments.items():
+        if first_time == False:
+            expression += " + "
+        expression += str(base) + "x**" + str(power)
+    solve(Eq(expression, 0), x)
+    print(f"The solutions to the expression are {solve(expression, x)}")
 
 def arithmetic(operation) -> None:
     """
@@ -401,10 +423,11 @@ def algebra():
             if alg_restart != 'f' and alg_restart != 'a':
                 print("ERROR: Invalid input! Please enter 'f' or 'a'.")
                 
-    for power, base in left_arguments.items():
-        if right_arguments.get(power):
+    for power, base in right_arguments.items():
+        if left_arguments.get(power):
             left_arguments[power] -= right_arguments[power]
-            del(right_arguments[power])
+        else:
+            left_arguments[power] = 0 - right_arguments[power]
     
     print("The simplified expression is:")
     first_term = True
@@ -423,23 +446,9 @@ def algebra():
     if not left_arguments:
         print("0")
         
-    print(" = ", end = '')
+    print(" = 0")
     
-    first_term = True
-    for power, base in right_arguments.items():
-        if base.is_integer():
-            base = str(int(base))
-        if power.is_integer():
-            power = str(int(power))
-        
-        if first_term == False:
-            print(" + ", end = '')
-                
-        print(f"{base}x^{power}", end='')
-        first_term = False
-    
-    if not right_arguments:
-        print("0")
+    solve_algebra(left_arguments)
     
     input("\nPress ENTER to continue.")
 
