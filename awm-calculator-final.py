@@ -505,3 +505,4 @@ while True: # Main loops forever
         main()
     except Exception as e:
         print(f"{Color.red}ERROR: {e}{Markings.clear}")
+        input("Press ENTER to return to the main menu.")
