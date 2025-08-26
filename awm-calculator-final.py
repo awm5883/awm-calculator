@@ -1,5 +1,5 @@
 """
-SEVEN-FUNCTION CALCULATOR V9.3
+SEVEN-FUNCTION CALCULATOR V9.4
 
 Features:
 - Menu-driven interface for selecting operations.
@@ -17,7 +17,7 @@ Usage:
 Run the script from your terminal. Follow the on-screen prompts to select an
 operation and enter the required values.
 
-Notes: Solves algebraic equations fully
+Notes: Added full algebraic solving functionality
 
 Author: Aidan McMillan
 Date: 8/22/25
@@ -121,10 +121,13 @@ def solve_algebra(arguments):
     for power, base in arguments.items():
         if first_time == False:
             expression += " + "
-        expression += str(base) + " * x ** " + str(power)
-    answer = solve(sympy.sympify(expression), x)
-    print(f"The solutions to the expression are {answer}")
-    
+        first_time = False
+        expression += str(base) + "*x**" + str(power)
+    if not left_arguments.items():
+        print("The equation has infinite solutions.")
+    else:
+        print(f"The solutions to the expression are {solve(sympy.sympify(expression), x)}")
+
 def arithmetic(operation) -> None:
     """
     ### Arithmetic
@@ -140,7 +143,7 @@ def arithmetic(operation) -> None:
     print("ENTER VALUE")
     inputs[0] = float(input("1st Value: "))
     
-    if inputs[0] == int(inputs[0]):
+    if inputs[0].is_integer():
         inputs[0] = int(inputs[0])
     
     print(f"{inputs[0]} {operation} {Color.green}{Markings.bold}_____{Markings.clear}")
@@ -148,7 +151,7 @@ def arithmetic(operation) -> None:
     inputs[1] = float(input("2nd Value: "))
     clear_terminal()
     
-    if inputs[1] == int(inputs[0]):
+    if inputs[1].is_integer():
         inputs[1] = int(inputs[1])
     
     operation_str = {
@@ -179,7 +182,7 @@ def arithmetic(operation) -> None:
             answer = inputs[0] ** inputs[1]
             print(f"{inputs[0]} to the power of {inputs[1]} equals {answer}")
             
-        if answer == int(answer):
+        if answer.is_integer():
             answer = int(answer)     
             
         if operation_str:
@@ -249,7 +252,7 @@ def trig(operation):
     elif operation == 't':
         answer = math.tan(math.radians(float(trigvalue)))
     
-    if answer == int(answer):
+    if answer.is_integer():
         answer = int(answer)
     print(f"The {operation_str[operation]} of {trigvalue} degrees is {round(answer, 3)}", end = '')
     if operation in ('as', 'ac', 'at'):
@@ -257,7 +260,7 @@ def trig(operation):
     elif operation in ('s', 'c', 't'):
         print(".")
 
-    if not answer == int(answer):
+    if not float(answer).is_integer():
         if input(f"Would you like more precision? ({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear}){Markings.clear} ").strip().lower() == 'y':
             print(f"The {operation_str[operation]} of {trigvalue} degrees is {answer}", end = '')
             if operation in ('as', 'ac', 'at'):
@@ -296,7 +299,7 @@ def radical():
     answer = float(inputs[1]) ** (1 / float(inputs[0])) # Radical in exponent form
     
     display_answer = 0
-    if answer == int(answer):                
+    if answer.is_integer():                
         display_answer = int(answer)
     else:
         display_answer = round(answer, 3)
@@ -317,6 +320,7 @@ def algebra():
         * None
     """
     alg_restart = None
+    global left_arguments
     
     while alg_restart != 'e':
         alg_restart = 'z'
@@ -328,7 +332,6 @@ def algebra():
             print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
         except Exception as e:
             print(f"{Color.red}ERROR: {e}")
-            input("Press ENTER to return to the main menu.")
         print(f"Enter argument exponent: {arg_base}x^{Color.green}_{Markings.clear}")
         
         try:
@@ -337,20 +340,18 @@ def algebra():
             print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
         except Exception as e:
             print(f"{Color.red}ERROR: {e}{Markings.clear}")
-            input("Press ENTER to return to the main menu.")
         try:
             left_arguments[arg_power] = left_arguments.get(arg_power, 0) + arg_base
         except Exception as e:
             print(f"{Color.red}ERROR: {e}{Markings.clear}")
-            input("Press ENTER to return to the main menu.")
         
         clear_terminal()
         print("Current arguments: ", end='')
         first_term = True
         for power, base in left_arguments.items():
-            if base == int(base):
+            if base.is_integer():
                 base = str(int(base))
-            if power == int(power):
+            if power.is_integer():
                 power = str(int(power))
             if not first_term == True:
                 print(" + ", end = '')
@@ -375,7 +376,6 @@ def algebra():
             print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
         except Exception as e:
             print(f"{Color.red}ERROR: {e}")
-            input("Press ENTER to return to the main menu.")
         print(f"Enter argument exponent: {arg_base}x^{Color.green}_{Markings.clear}")
         
         try:
@@ -384,21 +384,19 @@ def algebra():
             print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
         except Exception as e:
             print(f"{Color.red}ERROR: {e}{Markings.clear}")
-            input("Press ENTER to return to the main menu.")
         try:
             right_arguments[arg_power] = right_arguments.get(arg_power, 0) + arg_base
         except Exception as e:
             print(f"{Color.red}ERROR: {e}{Markings.clear}")
-            input("Press ENTER to return to the main menu.")
         
         clear_terminal()
         
         print("Current arguments: ", end='')
         first_term = True
         for power, base in left_arguments.items():
-            if base == int(base):
+            if base.is_integer():
                 base = str(int(base))
-            if power == int(power):
+            if power.is_integer():
                 power = str(int(power))
                 
             if not first_term == True:
@@ -411,9 +409,9 @@ def algebra():
         
         first_term = True
         for power, base in right_arguments.items():
-            if base == int(base):
+            if base.is_integer():
                 base = str(int(base))
-            if power == int(power):
+            if power.is_integer():
                 power = str(int(power))
             
             if not first_term == True:
@@ -433,17 +431,15 @@ def algebra():
             left_arguments[power] -= right_arguments[power]
         else:
             left_arguments[power] = 0 - right_arguments[power]
-        if left_arguments[power] == 0:
+        if left_arguments.get(power) == 0:
             del(left_arguments[power])
-    
-    clear_terminal()
     
     print("The simplified expression is:")
     first_term = True
     for power, base in left_arguments.items():
-        if base == int(base):
+        if base.is_integer():
             base = str(int(base))
-        if power == int(power):
+        if power.is_integer():
             power = str(int(power))
         
         if first_term == False:
