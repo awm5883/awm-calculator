@@ -1,5 +1,5 @@
 """
-SEVEN-FUNCTION CALCULATOR V9.0
+SEVEN-FUNCTION CALCULATOR V9.3 [UNSTABLE]
 
 Features:
 - Menu-driven interface for selecting operations.
@@ -17,7 +17,7 @@ Usage:
 Run the script from your terminal. Follow the on-screen prompts to select an
 operation and enter the required values.
 
-Notes: Complete code refactoring (removed class structure, simplified arithmetic, updated docstring, updated algebra)
+Notes: Begun algebra solve addition
 
 Author: Aidan McMillan
 Date: 8/22/25
@@ -26,6 +26,9 @@ Date: 8/22/25
 import time
 import math
 import os
+from sympy.solvers import solve
+from sympy import Symbol
+from sympy import Eq
 from awmfrmt import Color, Markings
 
 left_arguments = {}
@@ -33,16 +36,105 @@ right_arguments = {}
 inputs = [None, None]
 
 def clear_terminal():
-    # Clears Terminal
-    # For Windows
+    """
+    ### Clear Terminal
+    Clears user command prompt
+
+    * **Args:**
+        * None
+    * **Returns:**
+        * None
+    """
+    # Windows
     if os.name == 'nt':
         _ = os.system('cls')
-    # For Unix-like systems (Linux, macOS)
+    # Unix
     elif os.name == 'posix':
         _ = os.system('clear')
+      
+def main_menu_prompt():
+    """
+    ### Main Menu Prompt
+    Prints main menu and gets operation to perform
+
+    * **Args:**
+        * None
+    * **Returns:**
+        * Operation to perform
+    """
+    clear_terminal()
+    print(f"{Color.green}***{Markings.bold}SELECT OPERATION{Markings.clear}{Color.green}***{Markings.clear}")
+    print(f"{Color.green}*                    *{Markings.clear}")
+    print(f"{Color.green}* {Markings.bold}+ = ADD            {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}* {Markings.bold}- = SUBTRACT       {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}* {Markings.bold}* = MULTIPLY       {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}* {Markings.bold}/ = DIVIDE         {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}* {Markings.bold}^ = EXPONENTIATE   {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}* {Markings.bold}t = TRIGONOMETRY   {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}* {Markings.bold}r = RADICAL        {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}* {Markings.bold}a = ALGEBRA        {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}* {Markings.bold}q = QUIT           {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}*                    *{Markings.clear}")
+    print(f"{Color.green}**********************{Markings.clear}")
+    
+    command = input().strip().lower()
+    clear_terminal()
+    return command # return the input
+
+
+def trig_menu():
+    """
+    ### Trig menu
+    Prints menu and gets input for trig expression
+
+    * **Args:**
+        * None
+    * **Returns:**
+        * Trig command (command)
+    """
+    clear_terminal()
+    print(f"{Color.green}***{Markings.bold}TRIGONOMETRY{Markings.clear}{Color.green}***")
+    print(f"{Color.green}*                *{Markings.clear}")
+    print(f"{Color.green}* {Markings.bold}s  = SINE      {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}* {Markings.bold}c  = COSINE    {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}* {Markings.bold}t  = TANGENT   {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}* {Markings.bold}a_ = INVERSE   {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}*                *{Markings.clear}")
+    print(f"{Color.green}******************{Markings.clear}")
+    
+    command = input().strip().lower()
+    clear_terminal()
+    return command
+
+def solve_algebra(arguments):
+    """
+    ### Solve Algebra
+    
+    * **Args:**
+        * Arguments: A list of arguments to solve, set equal to 0.
+    * **Returns:**
+        * None
+    """
+    expression = ""
+    first_time = True
+    x = Symbol('x')
+    for power, base in arguments.items():
+        if first_time == False:
+            expression += " + "
+        expression += str(base) + "x**" + str(power)
+    solve(Eq(expression, 0), x)
+    print(f"The solutions to the expression are {solve(expression, x)}")
 
 def arithmetic(operation) -> None:
-    
+    """
+    ### Arithmetic
+    Gets input and performs an arithmetic operation (+, -, /, *, ^)
+
+    * **Args:**
+        * Operation to perform
+    * **Returns:**
+        * None
+    """
     clear_terminal()
     print(f"{Color.green}{Markings.bold}_____{Markings.clear} {operation} ____")
     print("ENTER VALUE")
@@ -82,7 +174,6 @@ def arithmetic(operation) -> None:
                 answer = float(inputs[0]) / float(inputs[1])
             except ZeroDivisionError:
                 print(f"{Color.red}ERROR: Cannot divide by zero!{Markings.clear}")
-                return 1
         
         elif operation == '^':
             answer = inputs[0] ** inputs[1]
@@ -101,14 +192,20 @@ def arithmetic(operation) -> None:
     except ValueError:
         print(f"{Color.red}ERROR: Invalid inputs!{Markings.clear}")
         input("Press ENTER to return to the main menu.")
-        return 1
     except Exception as e:
         print(f"{Color.red}ERROR: {e}{Markings.clear}")
         input("Press ENTER to return to the main menu.")
-        return 1
 
 def trig(operation):
+    """
+    ### Trigonometry
+    Gets inputs for and calculates a trigonometric expression
 
+    * **Args:**
+        * None
+    * **Returns:**
+        * None
+    """
     operation_str = {
       'as' : "arc sine",
       'ac' : "arc cosine",
@@ -171,6 +268,15 @@ def trig(operation):
     input("Press ENTER to return to the main menu.")
 
 def radical():
+    """
+    ### Radical
+    Gets input and calculates nth root of a number
+
+    * **Args:**
+        * None
+    * **Returns:**
+        * None
+    """
     print(f"{Color.green}{Markings.bold}_____{Markings.clear}th root of ____")
     print("ENTER VALUE     ")
     inputs[0] = input()
@@ -199,10 +305,17 @@ def radical():
 
     if input(f"Would you like more precision? ({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear}){Markings.clear}") == 'y':                
         print(f"The {inputs[0]}{suffix} root of {inputs[1]} is {str(answer)}")
-    
-    return 0
-    
+
 def algebra():
+    """
+    ### Algebra
+    Gets input and simplifies an algebraic expression
+
+    * **Args:**
+        * None
+    * **Returns:**
+        * None
+    """
     alg_restart = None
     global left_arguments
     
@@ -310,10 +423,11 @@ def algebra():
             if alg_restart != 'f' and alg_restart != 'a':
                 print("ERROR: Invalid input! Please enter 'f' or 'a'.")
                 
-    for power, base in left_arguments.items():
-        if right_arguments.get(power):
+    for power, base in right_arguments.items():
+        if left_arguments.get(power):
             left_arguments[power] -= right_arguments[power]
-            del(right_arguments[power])
+        else:
+            left_arguments[power] = 0 - right_arguments[power]
     
     print("The simplified expression is:")
     first_term = True
@@ -332,105 +446,56 @@ def algebra():
     if not left_arguments:
         print("0")
         
-    print(" = ", end = '')
+    print(" = 0")
     
-    first_term = True
-    for power, base in right_arguments.items():
-        if base.is_integer():
-            base = str(int(base))
-        if power.is_integer():
-            power = str(int(power))
-        
-        if first_term == False:
-            print(" + ", end = '')
-                
-        print(f"{base}x^{power}", end='')
-        first_term = False
-    
-    if not right_arguments:
-        print("0")
+    solve_algebra(left_arguments)
     
     input("\nPress ENTER to continue.")
-            
-def main_menu_prompt(): # Print main menu and recieve operation 
-    
-    clear_terminal()
-    print(f"{Color.green}***{Markings.bold}SELECT OPERATION{Markings.clear}{Color.green}***{Markings.clear}")
-    print(f"{Color.green}*                    *{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}+ = ADD            {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}- = SUBTRACT       {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}* = MULTIPLY       {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}/ = DIVIDE         {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}^ = EXPONENTIATE   {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}t = TRIGONOMETRY   {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}r = RADICAL        {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}a = ALGEBRA        {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}q = QUIT           {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}*                    *{Markings.clear}")
-    print(f"{Color.green}**********************{Markings.clear}")
-    
-    command = input().strip().lower()
-    clear_terminal()
-    return command # return the input
-
-
-def trig_menu(): # Trig menu (also returns input)
-    
-    clear_terminal()
-    print(f"{Color.green}***{Markings.bold}TRIGONOMETRY{Markings.clear}{Color.green}***")
-    print(f"{Color.green}*                *{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}s  = SINE      {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}c  = COSINE    {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}t  = TANGENT   {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}a_ = INVERSE   {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}*                *{Markings.clear}")
-    print(f"{Color.green}******************{Markings.clear}")
-    
-    command = input().strip().lower()
-    clear_terminal()
-    return command
-
 
 def main():
+    """
+    ### Main function
+    Main body of code
 
+    * **Args:**
+        * None
+    * **Returns:**
+        * None
+    """
     operation = main_menu_prompt()
 
-    match operation:
-        
-        case '+' | '-' | '*' | '/' | '^':
-            arithmetic(operation)
+    if operation in ('+', '-', '*', '/', '^'):
+        arithmetic(operation)
+  
+    elif operation == 'r':
+        radical()
             
-        case 'r':
-            radical()
-            
-        case 'a':
-            algebra()
-            
-        case 'q':
-            quit_input = input(f"{Color.red}{Markings.bold}ARE YOU SURE YOU WANT TO QUIT? {Markings.clear}({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear})")
-            if quit_input == 'y':
-                quit()
-            elif quit_input == 'n':
-                main_menu_prompt()
-            else:
-                time_left = 3
-                while time_left >= 0:
-                    print(f"{Color.red}ERROR: Invalid input. Reverting to main menu in {str(round(time_left, 3)).zfill(3)} seconds.{Markings.clear}", end = '\r')
-                    time.sleep(0.01)
-                    time_left -= 0.01
-                clear_terminal()    
-        case 't':
-            
+    elif operation == 'a':
+        algebra()
+
+    elif operation == 'q':
+        quit_input = input(f"{Color.red}{Markings.bold}ARE YOU SURE YOU WANT TO QUIT? {Markings.clear}({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear})")
+        if quit_input == 'y':
+            quit()
+        elif quit_input == 'n':
+            main_menu_prompt()
+        else:
+            time_left = 3
+            while time_left >= 0:
+                print(f"{Color.red}ERROR: Invalid input. Reverting to main menu in {str(round(time_left, 3)).zfill(3)} seconds.{Markings.clear}", end = '\r')
+                time.sleep(0.01)
+                time_left -= 0.01
+            clear_terminal()
+          
+    elif operation == 't':
             trig_operation = trig_menu()
+
+            if operation in ('as', 'ac', 'at', 's', 'c', 't'):
+                trig(trig_operation)
             
-            match trig_operation:
-                
-                case 'as' | 'ac' | 'at' | 's' | 'c' | 't':
-                    trig(trig_operation)
-                    
-                case _:
-                    print(f"{Color.red}ERROR: Invalid trig operation!{Markings.clear}")
-        case _:
-            print(f"{Color.red}ERROR: Invalid operation!{Markings.clear}")
+            else:
+                print(f"{Color.red}ERROR: Invalid trig operation!{Markings.clear}")
+    else:
+        print(f"{Color.red}ERROR: Invalid operation!{Markings.clear}")
 while True: # Main loops forever
     main()
