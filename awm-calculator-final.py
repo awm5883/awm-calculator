@@ -328,6 +328,7 @@ def algebra():
             print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
         except Exception as e:
             print(f"{Color.red}ERROR: {e}")
+            input("Press ENTER to return to the main menu.")
         print(f"Enter argument exponent: {arg_base}x^{Color.green}_{Markings.clear}")
         
         try:
@@ -336,10 +337,12 @@ def algebra():
             print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
         except Exception as e:
             print(f"{Color.red}ERROR: {e}{Markings.clear}")
+            input("Press ENTER to return to the main menu.")
         try:
             left_arguments[arg_power] = left_arguments.get(arg_power, 0) + arg_base
         except Exception as e:
             print(f"{Color.red}ERROR: {e}{Markings.clear}")
+            input("Press ENTER to return to the main menu.")
         
         clear_terminal()
         print("Current arguments: ", end='')
@@ -372,6 +375,7 @@ def algebra():
             print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
         except Exception as e:
             print(f"{Color.red}ERROR: {e}")
+            input("Press ENTER to return to the main menu.")
         print(f"Enter argument exponent: {arg_base}x^{Color.green}_{Markings.clear}")
         
         try:
@@ -380,10 +384,12 @@ def algebra():
             print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
         except Exception as e:
             print(f"{Color.red}ERROR: {e}{Markings.clear}")
+            input("Press ENTER to return to the main menu.")
         try:
             right_arguments[arg_power] = right_arguments.get(arg_power, 0) + arg_base
         except Exception as e:
             print(f"{Color.red}ERROR: {e}{Markings.clear}")
+            input("Press ENTER to return to the main menu.")
         
         clear_terminal()
         
