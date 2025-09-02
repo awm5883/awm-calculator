@@ -1,5 +1,5 @@
 """
-SEVEN-FUNCTION CALCULATOR V9.4
+SEVEN-FUNCTION CALCULATOR V9.4.1
 
 Features:
 - Menu-driven interface for selecting operations.
@@ -17,7 +17,7 @@ Usage:
 Run the script from your terminal. Follow the on-screen prompts to select an
 operation and enter the required values.
 
-Notes: Added full algebraic solving functionality
+Notes: Corrected .is_integer() statements and reordered algebra definition
 
 Author: Aidan McMillan
 Date: 8/22/25
@@ -106,6 +106,175 @@ def trig_menu():
     clear_terminal()
     return command
 
+def algebra():
+    """
+    ### Algebra
+    Gets input, simplifies and solves algebraic expression
+
+    * **Args:**
+        * None
+    * **Returns:**
+        * None
+    """
+    alg_restart = None
+    global left_arguments
+    
+    while alg_restart != 'e':
+        alg_restart = 'z'
+        print(f"Enter argument base: {Color.green}_{Markings.clear}x^_{Markings.clear}")
+        
+        try:
+            arg_base = float(input())
+        except TypeError:
+            print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
+        except Exception as e:
+            print(f"{Color.red}ERROR: {e}")
+        print(f"Enter argument exponent: {arg_base}x^{Color.green}_{Markings.clear}")
+        
+        try:
+            arg_power = float(input())
+        except TypeError:
+            print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
+        except Exception as e:
+            print(f"{Color.red}ERROR: {e}{Markings.clear}")
+        try:
+            left_arguments[arg_power] = left_arguments.get(arg_power, 0) + arg_base
+        except Exception as e:
+            print(f"{Color.red}ERROR: {e}{Markings.clear}")
+        
+        clear_terminal()
+        print("Current arguments: ", end='')
+        first_term = True
+        print_base = ''
+        for power, base in left_arguments.items():
+            if base == int(base):
+                base = str(int(base))
+            if power == int(power):
+                power = str(int(power))
+            
+            if not first_term == True:
+                if abs(float(base)) != base:
+                    print(" - ", end = '')
+                else:
+                    print(" + ", end = '')
+                
+            print(f"{str(abs(int(base)))}x^{power}", end='')
+            first_term = False
+        
+        print("\nEnter 'e' to enter an equals sign and 'a' to add another argument.")   
+        while alg_restart != 'e' and alg_restart != 'a':   
+            alg_restart = input().strip().lower()
+            if alg_restart != 'e' and alg_restart != 'a':
+                print("ERROR: Invalid input! Please enter 'e' or 'a'.")
+                
+    
+    while alg_restart != 'f':
+        alg_restart = 'z'
+        print(f"Enter argument base: {Color.green}_{Markings.clear}x^_{Markings.clear}")
+        
+        try:
+            arg_base = float(input())
+        except TypeError:
+            print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
+        except Exception as e:
+            print(f"{Color.red}ERROR: {e}")
+        print(f"Enter argument exponent: {arg_base}x^{Color.green}_{Markings.clear}")
+        
+        try:
+            arg_power = float(input())
+        except TypeError:
+            print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
+        except Exception as e:
+            print(f"{Color.red}ERROR: {e}{Markings.clear}")
+        try:
+            right_arguments[arg_power] = right_arguments.get(arg_power, 0) + arg_base
+        except Exception as e:
+            print(f"{Color.red}ERROR: {e}{Markings.clear}")
+        
+        clear_terminal()
+        
+        print("Current arguments: ", end='')
+        first_term = True
+        print_base = ''
+        for power, base in left_arguments.items():
+            if base == int(base):
+                base = str(int(base))
+            if power == int(power):
+                power = str(int(power))
+                
+            if not first_term == True:
+                if abs(float(base)) != base:
+                    print(" - ", end = '')
+                else:
+                    print(" + ", end = '')
+            
+            print(f"{str(abs(int(base)))}x^{power}", end='')
+            first_term = False
+        
+        print(" = ", end = '')
+        
+        first_term = True
+        print_base = ''
+        for power, base in right_arguments.items():
+            if base == int(base):
+                base = str(int(base))
+            if power == int(power):
+                power = str(int(power))
+            
+            if not first_term == True:
+                if abs(float(base)) != base:
+                    print(" - ", end = '')
+                else:
+                    print(" + ", end = '')
+                
+            print(f"{str(abs(int(base)))}x^{power}", end='')
+            first_term = False
+        
+        print("\nEnter 'f' to finish and simplify and 'a' to add another argument.")   
+        while alg_restart != 'f' and alg_restart != 'a':   
+            alg_restart = input().strip().lower()
+            if alg_restart != 'f' and alg_restart != 'a':
+                print("ERROR: Invalid input! Please enter 'f' or 'a'.")
+                
+    for power, base in right_arguments.items():
+        if left_arguments.get(power):
+            left_arguments[power] -= right_arguments[power]
+        else:
+            left_arguments[power] = 0 - right_arguments[power]
+        if left_arguments.get(power) == 0:
+            del(left_arguments[power])
+    
+    print("The simplified expression is:")
+    first_term = True
+    print_base = ''
+    for power, base in left_arguments.items():
+        if base == int(base):
+            base = str(int(base))
+        if power == int(power):
+            power = str(int(power))
+        
+        if not first_term == True:
+            if abs(float(base)) != base:
+                print(" - ", end = '')
+                print_base = str(abs(int(base)))
+            else:
+                print(" + ", end = '')
+        
+        if str(print_base) == '1':
+            print_base = ''
+
+        print(f"{print_base}x^{power}", end='')
+        first_term = False
+    
+    if not left_arguments:
+        print("0", end = '')
+        
+    print(" = 0")
+    
+    solve_algebra(left_arguments)
+    
+    input("\nPress ENTER to continue.")
+
 def solve_algebra(arguments):
     """
     ### Solve Algebra
@@ -172,17 +341,12 @@ def arithmetic(operation) -> None:
             answer = inputs[0] * inputs[1]
         
         elif operation == '/':
-            answer = 0.0
-            try:
-                answer = float(inputs[0]) / float(inputs[1])
-            except ZeroDivisionError:
-                print(f"{Color.red}ERROR: Cannot divide by zero!{Markings.clear}")
-        
+            answer = float(inputs[0]) / float(inputs[1])
         elif operation == '^':
             answer = inputs[0] ** inputs[1]
             print(f"{inputs[0]} to the power of {inputs[1]} equals {answer}")
             
-        if answer.is_integer():
+        if answer == int(answer):
             answer = int(answer)     
             
         if operation_str:
@@ -252,7 +416,7 @@ def trig(operation):
     elif operation == 't':
         answer = math.tan(math.radians(float(trigvalue)))
     
-    if answer.is_integer():
+    if answer == int(answer):
         answer = int(answer)
     print(f"The {operation_str[operation]} of {trigvalue} degrees is {round(answer, 3)}", end = '')
     if operation in ('as', 'ac', 'at'):
@@ -299,7 +463,7 @@ def radical():
     answer = float(inputs[1]) ** (1 / float(inputs[0])) # Radical in exponent form
     
     display_answer = 0
-    if answer.is_integer():                
+    if answer == int(answer):                
         display_answer = int(answer)
     else:
         display_answer = round(answer, 3)
@@ -308,175 +472,6 @@ def radical():
 
     if input(f"Would you like more precision? ({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear}){Markings.clear}") == 'y':                
         print(f"The {inputs[0]}{suffix} root of {inputs[1]} is {str(answer)}")
-
-def algebra():
-    """
-    ### Algebra
-    Gets input, simplifies and solves algebraic expression
-
-    * **Args:**
-        * None
-    * **Returns:**
-        * None
-    """
-    alg_restart = None
-    global left_arguments
-    
-    while alg_restart != 'e':
-        alg_restart = 'z'
-        print(f"Enter argument base: {Color.green}_{Markings.clear}x^_{Markings.clear}")
-        
-        try:
-            arg_base = float(input())
-        except TypeError:
-            print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
-        except Exception as e:
-            print(f"{Color.red}ERROR: {e}")
-        print(f"Enter argument exponent: {arg_base}x^{Color.green}_{Markings.clear}")
-        
-        try:
-            arg_power = float(input())
-        except TypeError:
-            print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
-        except Exception as e:
-            print(f"{Color.red}ERROR: {e}{Markings.clear}")
-        try:
-            left_arguments[arg_power] = left_arguments.get(arg_power, 0) + arg_base
-        except Exception as e:
-            print(f"{Color.red}ERROR: {e}{Markings.clear}")
-        
-        clear_terminal()
-        print("Current arguments: ", end='')
-        first_term = True
-        print_base = ''
-        for power, base in left_arguments.items():
-            if base.is_integer():
-                base = str(int(base))
-            if power.is_integer():
-                power = str(int(power))
-            
-            if not first_term == True:
-                if abs(float(base)) != base:
-                    print(" - ", end = '')
-                else:
-                    print(" + ", end = '')
-                
-            print(f"{str(abs(int(base)))}x^{power}", end='')
-            first_term = False
-        
-        print("\nEnter 'e' to enter an equals sign and 'a' to add another argument.")   
-        while alg_restart != 'e' and alg_restart != 'a':   
-            alg_restart = input().strip().lower()
-            if alg_restart != 'e' and alg_restart != 'a':
-                print("ERROR: Invalid input! Please enter 'e' or 'a'.")
-                
-    
-    while alg_restart != 'f':
-        alg_restart = 'z'
-        print(f"Enter argument base: {Color.green}_{Markings.clear}x^_{Markings.clear}")
-        
-        try:
-            arg_base = float(input())
-        except TypeError:
-            print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
-        except Exception as e:
-            print(f"{Color.red}ERROR: {e}")
-        print(f"Enter argument exponent: {arg_base}x^{Color.green}_{Markings.clear}")
-        
-        try:
-            arg_power = float(input())
-        except TypeError:
-            print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
-        except Exception as e:
-            print(f"{Color.red}ERROR: {e}{Markings.clear}")
-        try:
-            right_arguments[arg_power] = right_arguments.get(arg_power, 0) + arg_base
-        except Exception as e:
-            print(f"{Color.red}ERROR: {e}{Markings.clear}")
-        
-        clear_terminal()
-        
-        print("Current arguments: ", end='')
-        first_term = True
-        print_base = ''
-        for power, base in left_arguments.items():
-            if base.is_integer():
-                base = str(int(base))
-            if power.is_integer():
-                power = str(int(power))
-                
-            if not first_term == True:
-                if abs(float(base)) != base:
-                    print(" - ", end = '')
-                else:
-                    print(" + ", end = '')
-            
-            print(f"{str(abs(int(base)))}x^{power}", end='')
-            first_term = False
-        
-        print(" = ", end = '')
-        
-        first_term = True
-        print_base = ''
-        for power, base in right_arguments.items():
-            if base.is_integer():
-                base = str(int(base))
-            if power.is_integer():
-                power = str(int(power))
-            
-            if not first_term == True:
-                if abs(float(base)) != base:
-                    print(" - ", end = '')
-                else:
-                    print(" + ", end = '')
-                
-            print(f"{str(abs(int(base)))}x^{power}", end='')
-            first_term = False
-        
-        print("\nEnter 'f' to finish and simplify and 'a' to add another argument.")   
-        while alg_restart != 'f' and alg_restart != 'a':   
-            alg_restart = input().strip().lower()
-            if alg_restart != 'f' and alg_restart != 'a':
-                print("ERROR: Invalid input! Please enter 'f' or 'a'.")
-                
-    for power, base in right_arguments.items():
-        if left_arguments.get(power):
-            left_arguments[power] -= right_arguments[power]
-        else:
-            left_arguments[power] = 0 - right_arguments[power]
-        if left_arguments.get(power) == 0:
-            del(left_arguments[power])
-    
-    print("The simplified expression is:")
-    first_term = True
-    print_base = ''
-    for power, base in left_arguments.items():
-        if base.is_integer():
-            base = str(int(base))
-        if power.is_integer():
-            power = str(int(power))
-        
-        if not first_term == True:
-            if abs(float(base)) != base:
-                print(" - ", end = '')
-                print_base = str(abs(int(base)))
-            else:
-                print(" + ", end = '')
-        
-        if str(print_base) == '1':
-            print_base = ''
-
-        print(f"{print_base}x^{power}", end='')
-        first_term = False
-    
-    if not left_arguments:
-        print("0", end = '')
-        
-    print(" = 0")
-    
-    solve_algebra(left_arguments)
-    
-    input("\nPress ENTER to continue.")
 
 def main():
     """
