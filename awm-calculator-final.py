@@ -1,5 +1,5 @@
 """
-SEVEN-FUNCTION CALCULATOR V9.3 [UNSTABLE]
+SEVEN-FUNCTION CALCULATOR V9.4
 
 Features:
 - Menu-driven interface for selecting operations.
@@ -17,7 +17,7 @@ Usage:
 Run the script from your terminal. Follow the on-screen prompts to select an
 operation and enter the required values.
 
-Notes: Begun algebra solve addition
+Notes: Added full algebraic solving functionality
 
 Author: Aidan McMillan
 Date: 8/22/25
@@ -28,7 +28,7 @@ import math
 import os
 from sympy.solvers import solve
 from sympy import Symbol
-from sympy import Eq
+import sympy
 from awmfrmt import Color, Markings
 
 left_arguments = {}
@@ -121,9 +121,12 @@ def solve_algebra(arguments):
     for power, base in arguments.items():
         if first_time == False:
             expression += " + "
-        expression += str(base) + "x**" + str(power)
-    solve(Eq(expression, 0), x)
-    print(f"The solutions to the expression are {solve(expression, x)}")
+        first_time = False
+        expression += str(base) + "*x**" + str(power)
+    if not left_arguments.items():
+        print("The equation has infinite solutions.")
+    else:
+        print(f"The solutions to the expression are {solve(sympy.sympify(expression), x)}")
 
 def arithmetic(operation) -> None:
     """
@@ -309,7 +312,7 @@ def radical():
 def algebra():
     """
     ### Algebra
-    Gets input and simplifies an algebraic expression
+    Gets input, simplifies and solves algebraic expression
 
     * **Args:**
         * None
@@ -345,15 +348,20 @@ def algebra():
         clear_terminal()
         print("Current arguments: ", end='')
         first_term = True
+        print_base = ''
         for power, base in left_arguments.items():
             if base.is_integer():
                 base = str(int(base))
             if power.is_integer():
                 power = str(int(power))
+            
             if not first_term == True:
-                print(" + ", end = '')
+                if abs(float(base)) != base:
+                    print(" - ", end = '')
+                else:
+                    print(" + ", end = '')
                 
-            print(f"{base}x^{power}", end='')
+            print(f"{str(abs(int(base)))}x^{power}", end='')
             first_term = False
         
         print("\nEnter 'e' to enter an equals sign and 'a' to add another argument.")   
@@ -390,6 +398,7 @@ def algebra():
         
         print("Current arguments: ", end='')
         first_term = True
+        print_base = ''
         for power, base in left_arguments.items():
             if base.is_integer():
                 base = str(int(base))
@@ -397,14 +406,18 @@ def algebra():
                 power = str(int(power))
                 
             if not first_term == True:
-                print(" + ", end = '')
+                if abs(float(base)) != base:
+                    print(" - ", end = '')
+                else:
+                    print(" + ", end = '')
             
-            print(f"{base}x^{power}", end='')
+            print(f"{str(abs(int(base)))}x^{power}", end='')
             first_term = False
         
         print(" = ", end = '')
         
         first_term = True
+        print_base = ''
         for power, base in right_arguments.items():
             if base.is_integer():
                 base = str(int(base))
@@ -412,9 +425,12 @@ def algebra():
                 power = str(int(power))
             
             if not first_term == True:
-                print(" + ", end = '')
+                if abs(float(base)) != base:
+                    print(" - ", end = '')
+                else:
+                    print(" + ", end = '')
                 
-            print(f"{base}x^{power}", end='')
+            print(f"{str(abs(int(base)))}x^{power}", end='')
             first_term = False
         
         print("\nEnter 'f' to finish and simplify and 'a' to add another argument.")   
@@ -428,23 +444,33 @@ def algebra():
             left_arguments[power] -= right_arguments[power]
         else:
             left_arguments[power] = 0 - right_arguments[power]
+        if left_arguments.get(power) == 0:
+            del(left_arguments[power])
     
     print("The simplified expression is:")
     first_term = True
+    print_base = ''
     for power, base in left_arguments.items():
         if base.is_integer():
             base = str(int(base))
         if power.is_integer():
             power = str(int(power))
         
-        if first_term == False:
-            print(" + ", end = '')
-            
-        print(f"{base}x^{power}", end='')
+        if not first_term == True:
+            if abs(float(base)) != base:
+                print(" - ", end = '')
+                print_base = str(abs(int(base)))
+            else:
+                print(" + ", end = '')
+        
+        if str(print_base) == '1':
+            print_base = ''
+
+        print(f"{print_base}x^{power}", end='')
         first_term = False
     
     if not left_arguments:
-        print("0")
+        print("0", end = '')
         
     print(" = 0")
     
@@ -498,4 +524,8 @@ def main():
     else:
         print(f"{Color.red}ERROR: Invalid operation!{Markings.clear}")
 while True: # Main loops forever
-    main()
+    try:
+        main()
+    except Exception as e:
+        print(f"{Color.red}ERROR: {e}{Markings.clear}")
+        input("Press ENTER to return to the main menu.")
