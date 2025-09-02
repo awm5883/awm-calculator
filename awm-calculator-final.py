@@ -1,5 +1,5 @@
 """
-SEVEN-FUNCTION CALCULATOR V9.4.2
+SEVEN-FUNCTION CALCULATOR V9.5
 
 Features:
 - Menu-driven interface for selecting operations.
@@ -17,7 +17,7 @@ Usage:
 Run the script from your terminal. Follow the on-screen prompts to select an
 operation and enter the required values.
 
-Notes: Fixed an issue where all signs would show as negative
+Notes: Added ordering for arguments in algebra
 
 Author: Aidan McMillan
 Date: 8/22/25
@@ -93,7 +93,7 @@ def trig_menu():
         * Trig command (command)
     """
     clear_terminal()
-    print(f"{Color.green}***{Markings.bold}TRIGONOMETRY{Markings.clear}{Color.green}***")
+    print(f"{Color.green}***{Markings.bold}TRIGONOMETRY{Markings.clear}{Color.green}***{Markings.clear}")
     print(f"{Color.green}*                *{Markings.clear}")
     print(f"{Color.green}* {Markings.bold}s  = SINE      {Markings.clear}{Color.green}*{Markings.clear}")
     print(f"{Color.green}* {Markings.bold}c  = COSINE    {Markings.clear}{Color.green}*{Markings.clear}")
@@ -146,11 +146,19 @@ def algebra():
         print("Current arguments: ", end='')
         first_term = True
         print_base = ''
+        left_arguments = dict(sorted(left_arguments.items(), reverse=True))
         for power, base in left_arguments.items():
             if base == int(base):
                 base = str(int(base))
             if power == int(power):
                 power = str(int(power))
+            
+            if str(power) == '0':
+                exp_str = ''
+            elif str(power) == '1':
+                exp_str = 'x'
+            else:
+                exp_str = "x^" + power
             
             if not first_term == True:
                 if abs(float(base)) != float(base):
@@ -158,7 +166,7 @@ def algebra():
                 else:
                     print(" + ", end = '')
                 
-            print(f"{str(abs(int(base)))}x^{power}", end='')
+            print(f"{str(abs(int(base)))}{exp_str}", end='')
             first_term = False
         
         print("\nEnter 'e' to enter an equals sign and 'a' to add another argument.")   
@@ -196,6 +204,7 @@ def algebra():
         print("Current arguments: ", end='')
         first_term = True
         print_base = ''
+        left_arguments = dict(sorted(left_arguments.items(), reverse=True))
         for power, base in left_arguments.items():
             if base == int(base):
                 base = str(int(base))
@@ -208,18 +217,33 @@ def algebra():
                 else:
                     print(" + ", end = '')
             
-            print(f"{str(abs(int(base)))}x^{power}", end='')
+            if str(power) == '0':
+                exp_str = ''
+            elif str(power) == '1':
+                exp_str = 'x'
+            else:
+                exp_str = "x^" + power
+            
+            print(f"{str(abs(int(print_base)))}{exp_str}", end='')
             first_term = False
         
         print(" = ", end = '')
         
         first_term = True
         print_base = ''
+        right_arguments = dict(sorted(right_arguments.items(), reverse=True))
         for power, base in right_arguments.items():
             if base == int(base):
                 base = str(int(base))
             if power == int(power):
                 power = str(int(power))
+            
+            if str(power) == '0':
+                exp_str = ''
+            elif str(power) == '1':
+                exp_str = 'x'
+            else:
+                exp_str = "x^" + power
             
             if not first_term == True:
                 if abs(float(base)) != float(base):
@@ -227,7 +251,7 @@ def algebra():
                 else:
                     print(" + ", end = '')
                 
-            print(f"{str(abs(int(base)))}x^{power}", end='')
+            print(f"{str(abs(int(base)))}{exp_str}", end='')
             first_term = False
         
         print("\nEnter 'f' to finish and simplify and 'a' to add another argument.")   
@@ -247,12 +271,20 @@ def algebra():
     print("The simplified expression is:")
     first_term = True
     print_base = ''
+    left_arguments = dict(sorted(left_arguments.items(), reverse=True))
     for power, base in left_arguments.items():
         if base == int(base):
             base = str(int(base))
         if power == int(power):
             power = str(int(power))
         
+        if str(power) == '0':
+            exp_str = ''
+        elif str(power) == '1':
+            exp_str = 'x'
+        else:
+            exp_str = "x^" + power
+    
         if not first_term == True:
             if abs(float(base)) != float(base):
                 print(" - ", end = '')
@@ -263,7 +295,7 @@ def algebra():
         if str(print_base) == '1':
             print_base = ''
 
-        print(f"{print_base}x^{power}", end='')
+        print(f"{print_base}{exp_str}", end='')
         first_term = False
     
     if not left_arguments:
