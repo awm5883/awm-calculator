@@ -1,5 +1,5 @@
 """
-SEVEN-FUNCTION CALCULATOR V9.4.1
+SEVEN-FUNCTION CALCULATOR V9.4.2
 
 Features:
 - Menu-driven interface for selecting operations.
@@ -17,7 +17,7 @@ Usage:
 Run the script from your terminal. Follow the on-screen prompts to select an
 operation and enter the required values.
 
-Notes: Corrected .is_integer() statements and reordered algebra definition
+Notes: Fixed an issue where all signs would show as negative
 
 Author: Aidan McMillan
 Date: 8/22/25
@@ -153,7 +153,7 @@ def algebra():
                 power = str(int(power))
             
             if not first_term == True:
-                if abs(float(base)) != base:
+                if abs(float(base)) != float(base):
                     print(" - ", end = '')
                 else:
                     print(" + ", end = '')
@@ -203,7 +203,7 @@ def algebra():
                 power = str(int(power))
                 
             if not first_term == True:
-                if abs(float(base)) != base:
+                if abs(float(base)) != float(base):
                     print(" - ", end = '')
                 else:
                     print(" + ", end = '')
@@ -222,7 +222,7 @@ def algebra():
                 power = str(int(power))
             
             if not first_term == True:
-                if abs(float(base)) != base:
+                if abs(float(base)) != float(base):
                     print(" - ", end = '')
                 else:
                     print(" + ", end = '')
@@ -254,7 +254,7 @@ def algebra():
             power = str(int(power))
         
         if not first_term == True:
-            if abs(float(base)) != base:
+            if abs(float(base)) != float(base):
                 print(" - ", end = '')
                 print_base = str(abs(int(base)))
             else:
@@ -312,7 +312,7 @@ def arithmetic(operation) -> None:
     print("ENTER VALUE")
     inputs[0] = float(input("1st Value: "))
     
-    if inputs[0].is_integer():
+    if inputs[0] == int(inputs[0]):
         inputs[0] = int(inputs[0])
     
     print(f"{inputs[0]} {operation} {Color.green}{Markings.bold}_____{Markings.clear}")
@@ -320,7 +320,7 @@ def arithmetic(operation) -> None:
     inputs[1] = float(input("2nd Value: "))
     clear_terminal()
     
-    if inputs[1].is_integer():
+    if inputs[1] == int(inputs[1]):
         inputs[1] = int(inputs[1])
     
     operation_str = {
