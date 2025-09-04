@@ -20,7 +20,7 @@ operation and enter the required values.
 Notes: Added ordering for arguments in algebra
 
 Author: Aidan McMillan
-Date: 8/22/25
+Date: 9/2/25
 """
 
 import time
@@ -125,7 +125,7 @@ def algebra():
         
         try:
             arg_base = float(input())
-        except TypeError:
+        except ValueError:
             print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
         except Exception as e:
             print(f"{Color.red}ERROR: {e}")
@@ -133,12 +133,14 @@ def algebra():
         
         try:
             arg_power = float(input())
-        except TypeError:
+        except ValueError:
             print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
         except Exception as e:
             print(f"{Color.red}ERROR: {e}{Markings.clear}")
         try:
             left_arguments[arg_power] = left_arguments.get(arg_power, 0) + arg_base
+            arg_power = None
+            arg_base = None
         except Exception as e:
             print(f"{Color.red}ERROR: {e}{Markings.clear}")
         
@@ -148,41 +150,25 @@ def algebra():
         print_base = ''
         left_arguments = dict(sorted(left_arguments.items(), reverse=True))
         for power, base in left_arguments.items():
-            if base == int(base):
-                base = str(int(base))
-            if power == int(power):
-                power = str(int(power))
-            
-            if str(power) == '0':
-                exp_str = ''
-            elif str(power) == '1':
-                exp_str = 'x'
-            else:
-                exp_str = "x^" + power
-            
-            if not first_term == True:
-                if abs(float(base)) != float(base):
-                    print(" - ", end = '')
-                else:
-                    print(" + ", end = '')
-                
-            print(f"{str(abs(int(base)))}{exp_str}", end='')
-            first_term = False
+            if not float(base) == 0:
+                print(format_arg(base, power, first_term), end = '')
+                first_term = False
         
         print("\nEnter 'e' to enter an equals sign and 'a' to add another argument.")   
         while alg_restart != 'e' and alg_restart != 'a':   
             alg_restart = input().strip().lower()
             if alg_restart != 'e' and alg_restart != 'a':
-                print("ERROR: Invalid input! Please enter 'e' or 'a'.")
+                print(f"{Color.red}ERROR: Invalid input! Please enter 'e' or 'a'.{Markings.clear}")
                 
     
     while alg_restart != 'f':
+        right_arguments = {}
         alg_restart = 'z'
         print(f"Enter argument base: {Color.green}_{Markings.clear}x^_{Markings.clear}")
         
         try:
             arg_base = float(input())
-        except TypeError:
+        except ValueError:
             print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
         except Exception as e:
             print(f"{Color.red}ERROR: {e}")
@@ -190,12 +176,14 @@ def algebra():
         
         try:
             arg_power = float(input())
-        except TypeError:
+        except ValueError:
             print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
         except Exception as e:
             print(f"{Color.red}ERROR: {e}{Markings.clear}")
         try:
             right_arguments[arg_power] = right_arguments.get(arg_power, 0) + arg_base
+            arg_power = None
+            arg_base = None
         except Exception as e:
             print(f"{Color.red}ERROR: {e}{Markings.clear}")
         
@@ -206,26 +194,9 @@ def algebra():
         print_base = ''
         left_arguments = dict(sorted(left_arguments.items(), reverse=True))
         for power, base in left_arguments.items():
-            if base == int(base):
-                base = str(int(base))
-            if power == int(power):
-                power = str(int(power))
-                
-            if not first_term == True:
-                if abs(float(base)) != float(base):
-                    print(" - ", end = '')
-                else:
-                    print(" + ", end = '')
-            
-            if str(power) == '0':
-                exp_str = ''
-            elif str(power) == '1':
-                exp_str = 'x'
-            else:
-                exp_str = "x^" + power
-            
-            print(f"{str(abs(int(print_base)))}{exp_str}", end='')
-            first_term = False
+            if not float(base) == 0:
+                print(format_arg(base, power, first_term), end = '')
+                first_term = False
         
         print(" = ", end = '')
         
@@ -233,32 +204,15 @@ def algebra():
         print_base = ''
         right_arguments = dict(sorted(right_arguments.items(), reverse=True))
         for power, base in right_arguments.items():
-            if base == int(base):
-                base = str(int(base))
-            if power == int(power):
-                power = str(int(power))
-            
-            if str(power) == '0':
-                exp_str = ''
-            elif str(power) == '1':
-                exp_str = 'x'
-            else:
-                exp_str = "x^" + power
-            
-            if not first_term == True:
-                if abs(float(base)) != float(base):
-                    print(" - ", end = '')
-                else:
-                    print(" + ", end = '')
-                
-            print(f"{str(abs(int(base)))}{exp_str}", end='')
-            first_term = False
+            if not float(base) == 0:
+                print(format_arg(base, power, first_term), end = '')
+                first_term = False
         
         print("\nEnter 'f' to finish and simplify and 'a' to add another argument.")   
         while alg_restart != 'f' and alg_restart != 'a':   
             alg_restart = input().strip().lower()
             if alg_restart != 'f' and alg_restart != 'a':
-                print("ERROR: Invalid input! Please enter 'f' or 'a'.")
+                print(f"{Color.red}ERROR: Invalid input! Please enter 'f' or 'a'.{Markings.clear}")
                 
     for power, base in right_arguments.items():
         if left_arguments.get(power):
@@ -270,33 +224,11 @@ def algebra():
     
     print("The simplified expression is:")
     first_term = True
-    print_base = ''
     left_arguments = dict(sorted(left_arguments.items(), reverse=True))
     for power, base in left_arguments.items():
-        if base == int(base):
-            base = str(int(base))
-        if power == int(power):
-            power = str(int(power))
-        
-        if str(power) == '0':
-            exp_str = ''
-        elif str(power) == '1':
-            exp_str = 'x'
-        else:
-            exp_str = "x^" + power
-    
-        if not first_term == True:
-            if abs(float(base)) != float(base):
-                print(" - ", end = '')
-                print_base = str(abs(int(base)))
-            else:
-                print(" + ", end = '')
-        
-        if str(print_base) == '1':
-            print_base = ''
-
-        print(f"{print_base}{exp_str}", end='')
-        first_term = False
+        if not float(base) == 0:
+            print(format_arg(base, power, first_term), end = '')
+            first_term = False
     
     if not left_arguments:
         print("0", end = '')
@@ -306,6 +238,54 @@ def algebra():
     solve_algebra(left_arguments)
     
     input("\nPress ENTER to continue.")
+
+def format_arg(base, power, first_arg):
+    """
+    ### Print Arguments
+    * **Args:**
+        * Base: The base of the argument to be printed
+        * Power: The exponent of the argument to be printed
+        * First Argument: Whether or not the argument is the first
+    * **Returns:*
+        * Print Argument: The printable, formatted argument
+    """
+    
+    print_arg = ''
+    sign = ' + '
+    base = float(base)
+    power = float(power)
+    
+    if base == int(base):
+        base = int(base)
+        
+    if power == int(power):
+        power = int(power)
+    
+    if str(power) == '0':
+        print_arg = str(abs(base))
+        
+    elif str(base) == '1':
+        print_arg = "x^" + str(power)
+    
+    elif str(power) == '1':
+        print_arg = str(abs(base)) + "x"
+        
+    else:
+        print_arg = str(abs(base)) + "x^" + str(power)
+    
+    if not base == abs(base):
+        if first_arg == True:
+            sign = '-'
+            
+        else:
+            sign = ' - '
+            
+    else:
+        if first_arg == True:
+            sign = ''
+    
+    return sign + print_arg
+    
 
 def solve_algebra(arguments):
     """
@@ -556,3 +536,4 @@ while True: # Main loops forever
     except Exception as e:
         print(f"{Color.red}ERROR: {e}{Markings.clear}")
         input("Press ENTER to return to the main menu.")
+        input()
