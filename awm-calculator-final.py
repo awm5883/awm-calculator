@@ -1,5 +1,5 @@
 """
-SEVEN-FUNCTION CALCULATOR V9.6
+SEVEN-FUNCTION CALCULATOR V9.7
 
 Features:
 - Menu-driven interface for selecting operations.
@@ -17,7 +17,7 @@ Usage:
 Run the script from your terminal. Follow the on-screen prompts to select an
 operation and enter the required values.
 
-Notes: Fixed bug where current arguments wouldn't print.
+Notes: Changed algebra to polynomial, fixed bug where 1x would display instead of x in polynomial, and fixed bug where right_arguments{} reset after every argument.
 
 Author: Aidan McMillan
 Date: 9/4/25
@@ -72,7 +72,7 @@ def main_menu_prompt():
     print(f"{Color.green}* {Markings.bold}^ = EXPONENTIATE   {Markings.clear}{Color.green}*{Markings.clear}")
     print(f"{Color.green}* {Markings.bold}t = TRIGONOMETRY   {Markings.clear}{Color.green}*{Markings.clear}")
     print(f"{Color.green}* {Markings.bold}r = RADICAL        {Markings.clear}{Color.green}*{Markings.clear}")
-    print(f"{Color.green}* {Markings.bold}a = ALGEBRA        {Markings.clear}{Color.green}*{Markings.clear}")
+    print(f"{Color.green}* {Markings.bold}p = POLYNOMIAL     {Markings.clear}{Color.green}*{Markings.clear}")
     print(f"{Color.green}* {Markings.bold}q = QUIT           {Markings.clear}{Color.green}*{Markings.clear}")
     print(f"{Color.green}*                    *{Markings.clear}")
     print(f"{Color.green}**********************{Markings.clear}")
@@ -106,9 +106,9 @@ def trig_menu():
     clear_terminal()
     return command
 
-def algebra():
+def polynomial():
     """
-    ### Algebra
+    ### Polynomial
     Gets input, simplifies and solves algebraic expression
 
     * **Args:**
@@ -117,7 +117,8 @@ def algebra():
         * None
     """
     alg_restart = None
-    global left_arguments
+    left_arguments = {}
+    right_arguments = {}
     
     while alg_restart != 'e':
         alg_restart = 'z'
@@ -162,7 +163,6 @@ def algebra():
                 
     
     while alg_restart != 'f':
-        right_arguments = {}
         alg_restart = 'z'
         print(f"Enter argument base: {Color.green}_{Markings.clear}x^_{Markings.clear}")
         
@@ -208,6 +208,9 @@ def algebra():
                 print(format_arg(base, power, first_term), end = '')
                 first_term = False
         
+        if first_term:
+            print("0", end = '')
+        
         print("\nEnter 'f' to finish and simplify and 'a' to add another argument.")   
         while alg_restart != 'f' and alg_restart != 'a':   
             alg_restart = input().strip().lower()
@@ -235,7 +238,7 @@ def algebra():
         
     print(" = 0")
     
-    solve_algebra(left_arguments)
+    solve_poly(left_arguments)
     
     input("\nPress ENTER to continue.")
 
@@ -247,7 +250,7 @@ def format_arg(base, power, first_arg):
         * Power: The exponent of the argument to be printed
         * First Argument: Whether or not the argument is the first
     * **Returns:*
-        * Print Argument: The printable, formatted argument
+        * Print Argument: The printable, formatted argument with the leading sign
     """
     
     print_arg = ''
@@ -264,6 +267,9 @@ def format_arg(base, power, first_arg):
     if str(power) == '0':
         print_arg = str(abs(base))
         
+    elif str(power) == '1' and str(abs(base)) == '1':
+        print_arg = "x"
+    
     elif str(base) == '1':
         print_arg = "x^" + str(power)
     
@@ -287,27 +293,40 @@ def format_arg(base, power, first_arg):
     return sign + print_arg
     
 
-def solve_algebra(arguments):
+def solve_poly(arguments):
     """
-    ### Solve Algebra
+    ### Solve Polynomial
     
     * **Args:**
         * Arguments: A list of arguments to solve, set equal to 0.
     * **Returns:**
         * None
     """
+    solutions = {}
     expression = ""
-    first_time = True
+    first_term = True
     x = Symbol('x')
     for power, base in arguments.items():
-        if first_time == False:
+        if first_term == False:
             expression += " + "
-        first_time = False
+        first_term = False
         expression += str(base) + "*x**" + str(power)
-    if not left_arguments.items():
+    
+    solutions_ary = solve(sympy.sympify(expression), x)
+    for value in solutions_ary:
+        if value == value.replace(" ", ""):
+            solutions[value] = 0
+        else:
+            solutions[value] = value.split()[2].rstrip("i")
+    
+    if first_term:
         print("The equation has infinite solutions.")
+    
+    elif str(solutions) == "[]":
+        print("The equation has no solutions.")
+    
     else:
-        print(f"The solutions to the expression are {solve(sympy.sympify(expression), x)}")
+        print(f"The solutions to the expression are {solutions}.")
 
 def arithmetic(operation) -> None:
     """
@@ -363,9 +382,10 @@ def arithmetic(operation) -> None:
             
         if operation_str:
             print(f"The {operation_str[operation]} {str(inputs[0])} and {str(inputs[1])} is {str(round(answer, 3))}")
-            
-        if input(f"Would you like more precision? ({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear}){Markings.clear} ").strip().lower() == 'y':
-            print(f"The {operation_str[operation]} {str(inputs[0])} and {str(inputs[1])} is {answer}")
+        
+        if answer != round(answer, 3):    
+            if input(f"Would you like more precision? ({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear}){Markings.clear} ").strip().lower() == 'y':
+                print(f"The {operation_str[operation]} {str(inputs[0])} and {str(inputs[1])} is {answer}")
         
         input("Press ENTER to return to the main menu.")
     except ValueError:
@@ -503,8 +523,8 @@ def main():
     elif operation == 'r':
         radical()
             
-    elif operation == 'a':
-        algebra()
+    elif operation == 'p':
+        polynomial()
 
     elif operation == 'q':
         quit_input = input(f"{Color.red}{Markings.bold}ARE YOU SURE YOU WANT TO QUIT? {Markings.clear}({Color.green}y{Markings.clear}/{Color.red}n{Markings.clear})")
@@ -536,4 +556,3 @@ while True: # Main loops forever
     except Exception as e:
         print(f"{Color.red}ERROR: {e}{Markings.clear}")
         input("Press ENTER to return to the main menu.")
-        input()
