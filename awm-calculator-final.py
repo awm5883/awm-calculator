@@ -106,6 +106,24 @@ def trig_menu():
     clear_terminal()
     return command
 
+def lin_menu():
+    """
+    ### Linear Algebra Menu
+    Provides a menu for linear algebra
+    * **Args:**
+        * None
+    * **Returns:**
+        * Operation
+    """
+    print("******LINEAR ALGEBRA******")
+    print("*                        *")
+    print("*  s = SYS. OF EQUATIONS *")
+    print("*  v = PLUGIN VALUES     *")
+    print("*  c = CONVERT FORMS     *")
+    print("*                        *")
+    print("**************************")
+    return input().strip().lower()[0]
+
 def polynomial():
     """
     ### Polynomial
