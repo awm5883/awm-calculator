@@ -1,5 +1,5 @@
 """
-SEVEN-FUNCTION CALCULATOR V9.7
+SEVEN-FUNCTION CALCULATOR V9.8
 
 Features:
 - Menu-driven interface for selecting operations.
@@ -17,10 +17,10 @@ Usage:
 Run the script from your terminal. Follow the on-screen prompts to select an
 operation and enter the required values.
 
-Notes: Changed algebra to polynomial, fixed bug where 1x would display instead of x in polynomial, and fixed bug where right_arguments{} reset after every argument.
+Notes: Refactored and added helper functions print_args() and get_argument()
 
 Author: Aidan McMillan
-Date: 9/4/25
+Date: 9/18/25
 """
 
 import time
@@ -122,26 +122,11 @@ def polynomial():
     
     while alg_restart != 'e':
         alg_restart = 'z'
-        print(f"Enter argument base: {Color.green}_{Markings.clear}x^_{Markings.clear}")
         
+        arg = get_argument()
+
         try:
-            arg_base = float(input())
-        except ValueError:
-            print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
-        except Exception as e:
-            print(f"{Color.red}ERROR: {e}")
-        print(f"Enter argument exponent: {arg_base}x^{Color.green}_{Markings.clear}")
-        
-        try:
-            arg_power = float(input())
-        except ValueError:
-            print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
-        except Exception as e:
-            print(f"{Color.red}ERROR: {e}{Markings.clear}")
-        try:
-            left_arguments[arg_power] = left_arguments.get(arg_power, 0) + arg_base
-            arg_power = None
-            arg_base = None
+            left_arguments[arg[0] = left_arguments.get(arg[0], 0) + arg[1]
         except Exception as e:
             print(f"{Color.red}ERROR: {e}{Markings.clear}")
         
@@ -150,10 +135,7 @@ def polynomial():
         first_term = True
         print_base = ''
         left_arguments = dict(sorted(left_arguments.items(), reverse=True))
-        for power, base in left_arguments.items():
-            if not float(base) == 0:
-                print(format_arg(base, power, first_term), end = '')
-                first_term = False
+        print_args(left_arguments)
         
         print("\nEnter 'e' to enter an equals sign and 'a' to add another argument.")   
         while alg_restart != 'e' and alg_restart != 'a':   
@@ -164,26 +146,11 @@ def polynomial():
     
     while alg_restart != 'f':
         alg_restart = 'z'
-        print(f"Enter argument base: {Color.green}_{Markings.clear}x^_{Markings.clear}")
         
-        try:
-            arg_base = float(input())
-        except ValueError:
-            print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
-        except Exception as e:
-            print(f"{Color.red}ERROR: {e}")
-        print(f"Enter argument exponent: {arg_base}x^{Color.green}_{Markings.clear}")
-        
-        try:
-            arg_power = float(input())
-        except ValueError:
-            print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
-        except Exception as e:
-            print(f"{Color.red}ERROR: {e}{Markings.clear}")
+        arg = get_argument()
+      
         try:
             right_arguments[arg_power] = right_arguments.get(arg_power, 0) + arg_base
-            arg_power = None
-            arg_base = None
         except Exception as e:
             print(f"{Color.red}ERROR: {e}{Markings.clear}")
         
@@ -193,20 +160,14 @@ def polynomial():
         first_term = True
         print_base = ''
         left_arguments = dict(sorted(left_arguments.items(), reverse=True))
-        for power, base in left_arguments.items():
-            if not float(base) == 0:
-                print(format_arg(base, power, first_term), end = '')
-                first_term = False
+        print_args(left_arguments)
         
         print(" = ", end = '')
         
         first_term = True
         print_base = ''
         right_arguments = dict(sorted(right_arguments.items(), reverse=True))
-        for power, base in right_arguments.items():
-            if not float(base) == 0:
-                print(format_arg(base, power, first_term), end = '')
-                first_term = False
+        print_args(right_arguments)
         
         if first_term:
             print("0", end = '')
@@ -228,10 +189,7 @@ def polynomial():
     print("The simplified expression is:")
     first_term = True
     left_arguments = dict(sorted(left_arguments.items(), reverse=True))
-    for power, base in left_arguments.items():
-        if not float(base) == 0:
-            print(format_arg(base, power, first_term), end = '')
-            first_term = False
+    print_args(left_arguments)
     
     if not left_arguments:
         print("0", end = '')
@@ -241,6 +199,52 @@ def polynomial():
     solve_poly(left_arguments)
     
     input("\nPress ENTER to continue.")
+
+def print_args(arguments):
+    """
+    ### Print Arguments
+    Prints arguments from a dict
+
+    * **Args:**
+        * Arguments: A dict formatted {power : base}
+    * **Returns:**
+        * None
+    """
+    first_term = True
+    for power, base in arguments.items():
+        if not float(base) == 0:
+            print(format_arg(base, power, first_term), end = '')
+            first_term = False
+
+def get_argument():
+    """
+    ### Get Argument
+    Gets an argument for polynomial
+
+    * **Args:**
+        * None
+    * **Returns:**
+        * Power
+        * Base
+    """
+    
+    print(f"Enter argument base: {Color.green}_{Markings.clear}x^_{Markings.clear}")
+    
+    try:
+        arg_base = float(input())
+    except ValueError:
+        print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
+    except Exception as e:
+        print(f"{Color.red}ERROR: {e}")
+    print(f"Enter argument exponent: {arg_base}x^{Color.green}_{Markings.clear}")
+    
+    try:
+        arg_power = float(input())
+    except ValueError:
+        print(f"{Color.red}ERROR: Invalid argument! Please enter a number.{Markings.clear}")
+    except Exception as e:
+        print(f"{Color.red}ERROR: {e}{Markings.clear}")
+    return arg_power, arg_base
 
 def format_arg(base, power, first_arg):
     """
