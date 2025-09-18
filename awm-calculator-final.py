@@ -216,6 +216,27 @@ def print_args(arguments):
             print(format_arg(base, power, first_term), end = '')
             first_term = False
 
+def polynomial():
+    """
+    ### Get equation
+    Gets equation.
+    """
+    print(f"Enter equation (Use ^ for exponents and * for multiplication. Use x for a variable. Parentheses are valid. The equation must have two sides.")
+    equation = input()
+    equation = equation.replace(" ", "").replace("^", "**")
+    print("The simplified equation is:")
+
+    print(f"
+    
+    if not arguments:
+        print("0", end = '')
+        
+    print(" = 0")
+    
+    solve_poly(arguments)
+    
+    input("\nPress ENTER to continue.")
+
 def get_argument():
     """
     ### Get Argument
