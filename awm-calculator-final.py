@@ -126,7 +126,7 @@ def old_poly():
         arg = get_argument()
 
         try:
-            left_arguments[arg[0] = left_arguments.get(arg[0], 0) + arg[1]
+            left_arguments[arg[0]] = left_arguments.get(arg[0], 0) + arg[1]
         except Exception as e:
             print(f"{Color.red}ERROR: {e}{Markings.clear}")
         
@@ -220,12 +220,12 @@ def polynomial():
     """
     ### Poly
     """
-    print(f"Enter equation (Use ^ for exponents and * for multiplication. Use x for a variable. Parentheses are valid. The equation must have two sides.")
+    print(f"Enter equation (Use ^ for exponents and parentheses for multiplication. Use x for a variable. The equation will be set equal to 0, so do not include equal signs.")
     equation = input()
     equation = equation.replace(" ", "").replace("^", "**")
     print("The simplified equation is:")
 
-    print(simplify(equation))
+    print(sympy.simplify(sympy.sympify(equation)))
     
     if not arguments:
         print("0", end = '')
