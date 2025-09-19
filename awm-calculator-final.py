@@ -106,7 +106,7 @@ def trig_menu():
     clear_terminal()
     return command
 
-def polynomial():
+def old_poly():
     """
     ### Polynomial
     Gets input, simplifies and solves algebraic expression
@@ -218,15 +218,14 @@ def print_args(arguments):
 
 def polynomial():
     """
-    ### Get equation
-    Gets equation.
+    ### Poly
     """
     print(f"Enter equation (Use ^ for exponents and * for multiplication. Use x for a variable. Parentheses are valid. The equation must have two sides.")
     equation = input()
     equation = equation.replace(" ", "").replace("^", "**")
     print("The simplified equation is:")
 
-    print(f"
+    print(simplify(equation))
     
     if not arguments:
         print("0", end = '')
