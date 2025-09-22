@@ -223,11 +223,12 @@ def polynomial():
     print(f"Enter equation (Use ^ for exponents and parentheses for multiplication. Use x for a variable. The equation will be set equal to 0, so do not include equal signs.")
     equation = input()
     equation = equation.replace(" ", "").replace("^", "**")
+    sympy_eq = sympy.simplify(sympy.parsing.sympy_parser.parse_expr(equation), Symbol('x'))
     print("The simplified equation is:")
 
-    print(sympy.simplify(sympy.sympify(equation)))
+    print(sympy_eq)
     
-    if not arguments:
+    if solve(sympy_eq) == "0":
         print("0", end = '')
         
     print(" = 0")
@@ -317,24 +318,15 @@ def format_arg(base, power, first_arg):
     return sign + print_arg
     
 
-def solve_poly(arguments):
+def solve_poly(expression):
     """
     ### Solve Polynomial
     
     * **Args:**
-        * Arguments: A list of arguments to solve, set equal to 0.
+        * Expression: An expression to solve, set equal to 0.
     * **Returns:**
         * None
     """
-    solutions = {}
-    expression = ""
-    first_term = True
-    x = Symbol('x')
-    for power, base in arguments.items():
-        if first_term == False:
-            expression += " + "
-        first_term = False
-        expression += str(base) + "*x**" + str(power)
     
     solutions_ary = solve(sympy.sympify(expression), x)
     for value in solutions_ary:
